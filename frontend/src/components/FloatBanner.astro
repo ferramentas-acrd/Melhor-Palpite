@@ -1,0 +1,770 @@
+---
+const { banners = [] } = Astro.props;
+const STRAPI_URL = import.meta.env.PUBLIC_STRAPI_URL;
+
+// Debug: verificar banners recebidos
+console.log('[FloatBanner] Banners recebidos:', banners.length);
+console.log('[FloatBanner] Banners:', banners);
+
+// Filtra banners com local = "banner-float"
+const floatBanners = Array.isArray(banners) ? banners.filter(b => b?.local === 'banner-float') : [];
+
+// Debug: verificar banners filtrados
+console.log('[FloatBanner] Banners filtrados (banner-float):', floatBanners.length);
+
+function getBannerUrl(banner: any): string {
+  if (!banner?.image) return '/placeholder.svg';
+  
+  const medium = banner.image.formats?.medium?.url;
+  const original = banner.image.url;
+  const url = medium || original;
+  
+  if (!url) return '/placeholder.svg';
+  return url.startsWith('http') ? url : `${STRAPI_URL}${url}`;
+}
+
+// Configurações do banner float
+const config = {
+  delay: 5000, // 5 segundos para aparecer
+  autoClose: 15000, // 15 segundos para fechar automaticamente (0 = desabilitado)
+  showCloseButton: true,
+  backdrop: true,
+  backdropOpacity: 0.8,
+  position: 'center', // center, top, bottom, left, right
+  animation: 'slideIn', // slideIn, fadeIn, bounce, zoom
+  popunderUrl: '', // URL para abrir em nova janela
+  frequency: 'once-per-session', // once-per-session, once-per-day, always
+};
+---
+
+{floatBanners.length > 0 && (
+  <div id="float-banner-container" class="float-banner-container" data-config={JSON.stringify(config)}>
+    {floatBanners.map((banner, index) => (
+      <div class="float-banner-overlay" id={`float-banner-${index}`} style="display: none;">
+        <div class="float-banner">
+          {config.showCloseButton && (
+            <button class="float-banner-close" aria-label="Fechar banner">×</button>
+          )}
+          
+          <div class="float-banner-content">
+            <img
+              src={getBannerUrl(banner)}
+              alt={banner.image?.alternativeText || banner.title_banner || 'Banner'}
+              class="float-banner-image"
+              loading="lazy"
+            />
+            
+            {banner.title_banner && (
+              <h3 class="float-banner-title">{banner.title_banner}</h3>
+            )}
+            
+            {banner.description && (
+              <p class="float-banner-description">{banner.description}</p>
+            )}
+            
+            {banner.url && (
+              <button 
+                class="float-banner-cta" 
+                data-url={banner.url}
+                data-popunder={banner.popunder_url || config.popunderUrl}
+              >
+                {banner.cta_text || 'Clique Aqui!'}
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+    ))}
+  </div>
+)}
+
+<style>
+  .float-banner-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999999;
+  }
+
+  .float-banner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: all;
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  .float-banner {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    color: white;
+    max-width: 90%;
+    width: 400px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.5s ease-out;
+    position: relative;
+  }
+
+  .float-banner-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    line-height: 1;
+    transition: all 0.2s;
+    z-index: 1;
+  }
+
+  .float-banner-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: rotate(90deg);
+  }
+
+  .float-banner-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .float-banner-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .float-banner-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .float-banner-description {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.4;
+    opacity: 0.9;
+  }
+
+  .float-banner-cta {
+    background: #ff6b35;
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 250px;
+    transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+  }
+
+  .float-banner-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+    background: #e55a2b;
+  }
+
+  /* Animações */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  @keyframes bounce {
+    0% { transform: scale(0.5); opacity: 0; }
+    60% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; }
+  }
+
+  @keyframes zoom {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+
+  /* Posicionamento alternativo */
+  .float-banner-overlay.position-top {
+    align-items: flex-start;
+    padding-top: 50px;
+  }
+
+  .float-banner-overlay.position-bottom {
+    align-items: flex-end;
+    padding-bottom: 50px;
+  }
+
+  .float-banner-overlay.position-left {
+    justify-content: flex-start;
+    padding-left: 50px;
+  }
+
+  .float-banner-overlay.position-right {
+    justify-content: flex-end;
+    padding-right: 50px;
+  }
+
+  /* Animações alternativas */
+  .float-banner.animation-bounce {
+    animation: bounce 0.6s ease-out;
+  }
+
+  .float-banner.animation-zoom {
+    animation: zoom 0.4s ease-out;
+  }
+
+  .float-banner.animation-fadeIn {
+    animation: fadeIn 0.5s ease-out;
+  }
+
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .float-banner {
+      width: 95%;
+      padding: 20px;
+      margin: 20px;
+    }
+
+    .float-banner-title {
+      font-size: 20px;
+    }
+
+    .float-banner-description {
+      font-size: 14px;
+    }
+
+    .float-banner-cta {
+      font-size: 16px;
+      padding: 12px 24px;
+    }
+
+    .float-banner-overlay.position-left,
+    .float-banner-overlay.position-right {
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .float-banner-overlay.position-top {
+      padding-top: 20px;
+    }
+
+    .float-banner-overlay.position-bottom {
+      padding-bottom: 20px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .float-banner {
+      width: 98%;
+      padding: 15px;
+      margin: 10px;
+    }
+
+    .float-banner-title {
+      font-size: 18px;
+    }
+
+    .float-banner-description {
+      font-size: 13px;
+    }
+  }
+</style>
+
+<script>
+  // @ts-nocheck
+  // FloatBannerSystem - Sistema avançado de banner flutuante
+  (function() {
+    'use strict';
+
+    /**
+     * @class FloatBannerSystem
+     * @description Sistema de controle de banners flutuantes
+     */
+    class FloatBannerSystem {
+      constructor() {
+        // Propriedades da instância
+        this.container = null;
+        this.config = {};
+        this.banners = [];
+        this.currentBannerIndex = 0;
+        this.isShowing = false;
+        this.closeTimeoutId = null;
+        this.keydownHandler = null;
+
+        // Inicializa o sistema
+        this.initialize();
+      }
+
+      initialize() {
+        this.container = document.getElementById('float-banner-container');
+        if (!this.container) {
+          console.warn('[FloatBanner] Container não encontrado');
+          return;
+        }
+
+        // Parse configurações
+        try {
+          this.config = JSON.parse(this.container.dataset.config || '{}');
+        } catch (e) {
+          console.error('[FloatBanner] Erro ao parsear configurações:', e);
+          this.config = this.getDefaultConfig();
+        }
+
+        // Valida e mescla com configurações padrão
+        this.config = Object.assign(this.getDefaultConfig(), this.config);
+
+        // Busca banners
+        this.banners = Array.from(this.container.querySelectorAll('.float-banner-overlay'));
+
+        if (this.banners.length === 0) {
+          console.warn('[FloatBanner] Nenhum banner encontrado');
+          return;
+        }
+
+        // Inicia o sistema
+        this.init();
+      }
+
+      getDefaultConfig() {
+        return {
+          delay: 5000,
+          autoClose: 15000,
+          showCloseButton: true,
+          backdrop: true,
+          backdropOpacity: 0.8,
+          position: 'center',
+          animation: 'slideIn',
+          popunderUrl: '',
+          frequency: 'once-per-session',
+          debug: false
+        };
+      }
+
+      init() {
+        // Verifica se deve mostrar baseado na frequência
+        if (!this.shouldShow()) {
+          this.log('Banner bloqueado pela frequência');
+          return;
+        }
+
+        // Configura eventos
+        this.setupEvents();
+
+        // Inicia o timer para mostrar o banner
+        const delay = parseInt(this.config.delay) || 0;
+        if (delay > 0) {
+          setTimeout(() => this.showBanner(), delay);
+        } else {
+          this.showBanner();
+        }
+      }
+
+      log(message, data = null) {
+        if (this.config.debug) {
+          if (data) {
+            console.log(`[FloatBanner] ${message}`, data);
+          } else {
+            console.log(`[FloatBanner] ${message}`);
+          }
+        }
+      }
+
+      shouldShow() {
+        const frequency = this.config.frequency || 'once-per-session';
+        const storageKey = 'float-banner-shown';
+
+        switch (frequency) {
+          case 'once-per-session':
+            if (sessionStorage.getItem(storageKey)) {
+              return false;
+            }
+            break;
+
+          case 'once-per-day':
+            const lastShown = localStorage.getItem(storageKey);
+            if (lastShown) {
+              const lastDate = new Date(parseInt(lastShown));
+              const today = new Date();
+              if (lastDate.toDateString() === today.toDateString()) {
+                return false;
+              }
+            }
+            break;
+
+          case 'always':
+            // Sempre mostra
+            break;
+
+          default:
+            console.warn(`[FloatBanner] Frequência desconhecida: ${frequency}`);
+        }
+
+        return true;
+      }
+
+      setupEvents() {
+        this.banners.forEach((banner, index) => {
+          // Botão de fechar
+          const closeBtn = banner.querySelector('.float-banner-close');
+          if (closeBtn) {
+            closeBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              this.closeBanner();
+            });
+          }
+
+          // Clique no backdrop
+          banner.addEventListener('click', (e) => {
+            if (e.target === banner && this.config.backdrop) {
+              this.closeBanner();
+            }
+          });
+
+          // Botão CTA
+          const ctaBtn = banner.querySelector('.float-banner-cta');
+          if (ctaBtn) {
+            ctaBtn.addEventListener('click', (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              const url = ctaBtn.dataset.url;
+              const popunderUrl = ctaBtn.dataset.popunder;
+
+              if (popunderUrl) {
+                this.openPopunder(popunderUrl);
+              } else if (url) {
+                this.openUrl(url);
+              }
+
+              this.closeBanner();
+            });
+          }
+        });
+
+        // ESC key handler (apenas um listener global)
+        if (!this.keydownHandler) {
+          this.keydownHandler = (e) => {
+            if (e.key === 'Escape' && this.isShowing) {
+              this.closeBanner();
+            }
+          };
+          document.addEventListener('keydown', this.keydownHandler);
+        }
+      }
+
+      showBanner() {
+        if (this.isShowing || this.currentBannerIndex >= this.banners.length) {
+          return;
+        }
+
+        const banner = this.banners[this.currentBannerIndex];
+        if (!banner) {
+          console.error('[FloatBanner] Banner não encontrado no índice:', this.currentBannerIndex);
+          return;
+        }
+
+        const bannerContent = banner.querySelector('.float-banner');
+
+        // Aplica posição
+        const position = this.config.position;
+        if (position && position !== 'center') {
+          banner.classList.add(`position-${position}`);
+        }
+
+        // Aplica animação
+        const animation = this.config.animation;
+        if (animation && animation !== 'slideIn' && bannerContent) {
+          bannerContent.classList.add(`animation-${animation}`);
+        }
+
+        // Mostra o banner
+        banner.style.display = 'flex';
+        this.isShowing = true;
+
+        // Marca como mostrado
+        this.markAsShown();
+
+        // Auto close
+        const autoClose = parseInt(this.config.autoClose) || 0;
+        if (autoClose > 0) {
+          this.closeTimeoutId = setTimeout(() => {
+            if (this.isShowing) {
+              this.closeBanner();
+            }
+          }, autoClose);
+        }
+
+        // Tracking
+        this.track('banner_shown', {
+          index: this.currentBannerIndex,
+          timestamp: Date.now()
+        });
+
+        this.log('Banner exibido', { index: this.currentBannerIndex });
+      }
+
+      closeBanner() {
+        if (!this.isShowing) return;
+
+        const banner = this.banners[this.currentBannerIndex];
+        if (!banner) return;
+
+        // Cancela auto-close se existir
+        if (this.closeTimeoutId) {
+          clearTimeout(this.closeTimeoutId);
+          this.closeTimeoutId = null;
+        }
+
+        // Animação de saída
+        banner.style.opacity = '0';
+        banner.style.transform = 'scale(0.9)';
+
+        setTimeout(() => {
+          banner.style.display = 'none';
+          banner.style.opacity = '';
+          banner.style.transform = '';
+          this.isShowing = false;
+
+          // Remove classes de posição/animação
+          banner.className = banner.className.replace(/position-\w+/g, '').replace(/animation-\w+/g, '').trim();
+
+          // Próximo banner (se houver)
+          this.currentBannerIndex++;
+          if (this.currentBannerIndex < this.banners.length) {
+            setTimeout(() => this.showBanner(), 1000);
+          }
+        }, 300);
+
+        // Tracking
+        this.track('banner_closed', {
+          index: this.currentBannerIndex,
+          timestamp: Date.now()
+        });
+
+        this.log('Banner fechado', { index: this.currentBannerIndex });
+      }
+
+      openUrl(url) {
+        if (!url) return;
+
+        try {
+          window.open(url, '_blank', 'noopener,noreferrer');
+          this.track('url_opened', { url: url });
+        } catch (error) {
+          console.error('[FloatBanner] Erro ao abrir URL:', error);
+          window.location.href = url;
+        }
+      }
+
+      openPopunder(url) {
+        if (!url) return;
+
+        try {
+          // Tenta abrir popunder
+          const features = 'width=' + screen.width + ',height=' + screen.height +
+                         ',top=0,left=0,scrollbars=yes,resizable=yes';
+          const popup = window.open(url, '_blank', features);
+
+          if (popup) {
+            // Tenta focar na janela principal
+            if (window.focus) {
+              window.focus();
+            }
+
+            // Tenta mover o popup para trás
+            if (popup.blur) {
+              popup.blur();
+            }
+
+            this.track('popunder_opened', {
+              url: url,
+              method: 'window_open',
+              timestamp: Date.now()
+            });
+
+            this.log('Popunder aberto', { url: url });
+          } else {
+            // Fallback: abre em nova aba normal
+            this.openUrl(url);
+          }
+        } catch (error) {
+          console.error('[FloatBanner] Erro ao abrir popunder:', error);
+          // Fallback: navegação direta
+          window.location.href = url;
+        }
+      }
+
+      markAsShown() {
+        const frequency = this.config.frequency || 'once-per-session';
+        const storageKey = 'float-banner-shown';
+
+        try {
+          switch (frequency) {
+            case 'once-per-session':
+              sessionStorage.setItem(storageKey, 'true');
+              break;
+
+            case 'once-per-day':
+              localStorage.setItem(storageKey, Date.now().toString());
+              break;
+          }
+        } catch (error) {
+          console.error('[FloatBanner] Erro ao salvar no storage:', error);
+        }
+      }
+
+      track(event, data = {}) {
+        // Log do evento
+        this.log(`Evento: ${event}`, data);
+
+        // Dispara evento customizado
+        try {
+          const customEvent = new CustomEvent('floatbanner:' + event, {
+            detail: data,
+            bubbles: true,
+            cancelable: true
+          });
+          document.dispatchEvent(customEvent);
+        } catch (error) {
+          console.error('[FloatBanner] Erro ao disparar evento:', error);
+        }
+
+        // Integração com Google Analytics (se disponível)
+        if (typeof window !== 'undefined' && window.gtag && typeof window.gtag === 'function') {
+          try {
+            window.gtag('event', 'float_banner_' + event, {
+              event_category: 'Float Banner',
+              event_label: JSON.stringify(data),
+              value: data.index || 0
+            });
+          } catch (error) {
+            console.error('[FloatBanner] Erro ao enviar para GA:', error);
+          }
+        }
+
+        // Integração com dataLayer (GTM)
+        if (typeof window !== 'undefined' && window.dataLayer && Array.isArray(window.dataLayer)) {
+          try {
+            window.dataLayer.push({
+              event: 'float_banner_' + event,
+              floatBannerData: data
+            });
+          } catch (error) {
+            console.error('[FloatBanner] Erro ao enviar para dataLayer:', error);
+          }
+        }
+      }
+
+      // API pública
+      forceShow() {
+        this.log('Forçando exibição do banner');
+        this.currentBannerIndex = 0;
+        this.isShowing = false;
+
+        // Esconde todos os banners primeiro
+        this.banners.forEach(banner => {
+          banner.style.display = 'none';
+        });
+
+        this.showBanner();
+      }
+
+      forceClose() {
+        this.log('Forçando fechamento do banner');
+        this.closeBanner();
+      }
+
+      reset() {
+        this.log('Resetando controles de frequência');
+        try {
+          sessionStorage.removeItem('float-banner-shown');
+          localStorage.removeItem('float-banner-shown');
+        } catch (error) {
+          console.error('[FloatBanner] Erro ao resetar storage:', error);
+        }
+      }
+
+      destroy() {
+        this.log('Destruindo instância');
+
+        // Remove event listener global
+        if (this.keydownHandler) {
+          document.removeEventListener('keydown', this.keydownHandler);
+          this.keydownHandler = null;
+        }
+
+        // Limpa timeouts
+        if (this.closeTimeoutId) {
+          clearTimeout(this.closeTimeoutId);
+          this.closeTimeoutId = null;
+        }
+
+        // Fecha banner se estiver aberto
+        if (this.isShowing) {
+          this.forceClose();
+        }
+
+        // Limpa referências
+        this.container = null;
+        this.banners = [];
+        this.config = {};
+      }
+
+      // Método para obter status
+      getStatus() {
+        return {
+          isShowing: this.isShowing,
+          currentBannerIndex: this.currentBannerIndex,
+          totalBanners: this.banners.length,
+          config: this.config
+        };
+      }
+    }
+
+    // Expõe a classe globalmente
+    window.FloatBannerSystem = FloatBannerSystem;
+
+    // Inicializa automaticamente quando o DOM estiver pronto
+    function initializeFloatBanner() {
+      if (!window.floatBannerInstance) {
+        window.floatBannerInstance = new FloatBannerSystem();
+      }
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializeFloatBanner);
+    } else {
+      initializeFloatBanner();
+    }
+
+  })();
+</script>

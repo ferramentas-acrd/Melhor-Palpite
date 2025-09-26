@@ -1,0 +1,128 @@
+---
+export const prerender = false;
+
+import Layout from '../layouts/Layout.astro';
+import { getAuthors, getImageUrl } from '../lib/strapi';
+import { checkTrailingSlashRedirect } from '../lib/utils';
+
+// Verificar se a URL atual termina com slash, se não, redirecionar
+const redirectResponse = checkTrailingSlashRedirect(Astro);
+if (redirectResponse) {
+  return redirectResponse;
+}
+
+const allAuthors = await getAuthors();
+// Filtrar apenas autores que têm slug válido
+const authors = allAuthors.filter(author => author.slug && typeof author.slug === 'string');
+
+// Função para gerar schema da página de autores
+function generateAuthorsPageSchema(authors: any[]) {
+  const baseUrl = import.meta.env.PUBLIC_BASE_URL || `${Astro.url.protocol}//${Astro.url.host}`;
+  const strapiBaseUrl = import.meta.env.PUBLIC_STRAPI_URL || 'http://localhost:1337';
+  const currentUrl = `${baseUrl}/autores`;
+  
+  // Criar lista de autores como ItemList
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "@id": `${currentUrl}#itemlist`,
+    "url": currentUrl,
+    "name": "Lista de Autores",
+    "description": `Conheça nossos ${authors.length} autores e jornalistas`,
+    "numberOfItems": authors.length,
+    "itemListElement": authors.map((author, index) => {
+      let imageUrl = null;
+      if (author.avatar?.url) {
+        imageUrl = author.avatar.url.startsWith('http') 
+          ? author.avatar.url 
+          : `${strapiBaseUrl}${author.avatar.url}`;
+      }
+
+      return {
+        "@type": "ListItem",
+        "position": index + 1,
+        "item": {
+          "@type": "Person",
+          "@id": `${baseUrl}/autor/${author.slug}#person`,
+          "name": author.name,
+          "url": `${baseUrl}/autor/${author.slug}`,
+          ...(author.bio && { "description": author.bio }),
+          ...(imageUrl && {
+            "image": {
+              "@type": "ImageObject",
+              "url": imageUrl,
+              "caption": `Foto de ${author.name}`
+            }
+          }),
+          "jobTitle": "Autor",
+          "worksFor": {
+            "@type": "Organization",
+            "@id": `${baseUrl}#organization`
+          }
+        }
+      };
+    }),
+    "mainEntity": {
+      "@type": "WebPage",
+      "@id": `${currentUrl}#webpage`,
+      "name": "Autores",
+      "description": `Página com todos os nossos ${authors.length} autores e colaboradores`
+    }
+  };
+
+  // Remove campos undefined/null para limpeza
+  return JSON.parse(JSON.stringify(itemListSchema, (key, value) => {
+    if (value === undefined || value === null || (Array.isArray(value) && value.length === 0)) {
+      return undefined;
+    }
+    return value;
+  }));
+}
+
+// Gerar o schema da página de autores
+const authorsPageSchema = authors.length > 0 ? generateAuthorsPageSchema(authors) : null;
+---
+<Layout 
+  title="Autores" 
+  description={`Conheça nossos ${authors.length} autores e jornalistas especializados`}
+  ogType="website"
+  customSchema={authorsPageSchema}
+>
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold text-gray-900 mb-8">Autores</h1>
+
+    {authors.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {authors.map((author) => (
+          <a 
+            href={`/autor/${author.slug}`}
+            class="block bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-6"
+          >
+            <div class="flex items-center gap-4">
+              {author.avatar && (
+                <img 
+                  src={getImageUrl(author.avatar, 'thumbnail')} 
+                  alt={author.name}
+                  width="64"
+                  height="64"
+                  class="w-16 h-16 rounded-full object-cover"
+                  loading="lazy"
+                />
+              )}
+              <div class="flex-1">
+                <h3 class="text-xl font-bold text-gray-900">{author.name}</h3>
+                {author.bio && (
+                  <p class="text-gray-600 text-sm line-clamp-2 mt-1">{author.bio}</p>
+                )}
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12">
+        <p class="text-gray-500 text-lg">Nenhum autor encontrado.</p>
+      </div>
+    )}
+  </div>
+</Layout>

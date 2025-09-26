@@ -1,0 +1,132 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Fórum - Corinthians Online">
+  <Header />
+  
+  <main class="flex-1">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <div class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">Fórum da Fiel</h1>
+        <p class="text-gray-600">Participe das discussões sobre o Corinthians</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <!-- Hot Topics -->
+          <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-6">🔥 Tópicos em Alta</h2>
+            <div class="space-y-4">
+              <div class="bg-white border border-gray-200 rounded-lg p-6">
+                <div class="flex items-start justify-between">
+                  <div class="flex-1">
+                    <h3 class="font-bold text-lg mb-2">📋 Análise: Como o Memphis mudou nosso jogo</h3>
+                    <p class="text-gray-600 text-sm mb-3">Discussão sobre o impacto tático do holandês no time</p>
+                    <div class="flex items-center text-sm text-gray-500">
+                      <span class="mr-4">Por: CorintianoFiel</span>
+                      <span class="mr-4">💬 127 respostas</span>
+                      <span>🔥 845 curtidas</span>
+                    </div>
+                  </div>
+                  <div class="text-sm text-gray-500">Há 2h</div>
+                </div>
+              </div>
+
+              <div class="bg-white border border-gray-200 rounded-lg p-6">
+                <div class="flex items-start justify-between">
+                  <div class="flex-1">
+                    <h3 class="font-bold text-lg mb-2">⚽ Palpites para Corinthians x Santos</h3>
+                    <p class="text-gray-600 text-sm mb-3">Qual sua previsão para o clássico de domingo?</p>
+                    <div class="flex items-center text-sm text-gray-500">
+                      <span class="mr-4">Por: TimaoEterno</span>
+                      <span class="mr-4">💬 89 respostas</span>
+                      <span>🔥 234 curtidas</span>
+                    </div>
+                  </div>
+                  <div class="text-sm text-gray-500">Há 4h</div>
+                </div>
+              </div>
+
+              <div class="bg-white border border-gray-200 rounded-lg p-6">
+                <div class="flex items-start justify-between">
+                  <div class="flex-1">
+                    <h3 class="font-bold text-lg mb-2">🏆 Relembrando: Mundial de 2012</h3>
+                    <p class="text-gray-600 text-sm mb-3">Hoje faz 13 anos da maior conquista da nossa história</p>
+                    <div class="flex items-center text-sm text-gray-500">
+                      <span class="mr-4">Por: CampeaoMundo</span>
+                      <span class="mr-4">💬 156 respostas</span>
+                      <span>🔥 1.2k curtidas</span>
+                    </div>
+                  </div>
+                  <div class="text-sm text-gray-500">Há 6h</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Categories -->
+          <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-6">Categorias</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <h3 class="font-bold mb-2">⚽ Futebol Profissional</h3>
+                <p class="text-sm text-gray-600 mb-2">Discussões sobre o time principal</p>
+                <div class="text-xs text-gray-500">2.1k tópicos • 45k mensagens</div>
+              </div>
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <h3 class="font-bold mb-2">🔄 Transferências</h3>
+                <p class="text-sm text-gray-600 mb-2">Rumores e confirmações</p>
+                <div class="text-xs text-gray-500">856 tópicos • 12k mensagens</div>
+              </div>
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <h3 class="font-bold mb-2">👩 Corinthians Feminino</h3>
+                <p class="text-sm text-gray-600 mb-2">Tudo sobre o time feminino</p>
+                <div class="text-xs text-gray-500">324 tópicos • 5.2k mensagens</div>
+              </div>
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <h3 class="font-bold mb-2">🏟️ Arena e Infraestrutura</h3>
+                <p class="text-sm text-gray-600 mb-2">Sobre o estádio e instalações</p>
+                <div class="text-xs text-gray-500">145 tópicos • 2.1k mensagens</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-1">
+          <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+            <h3 class="font-bold text-lg mb-4">📊 Estatísticas do Fórum</h3>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span class="text-sm">Membros ativos:</span>
+                <span class="font-semibold">15.7k</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-sm">Tópicos:</span>
+                <span class="font-semibold">8.2k</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-sm">Mensagens:</span>
+                <span class="font-semibold">127k</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-black text-white rounded-lg p-6">
+            <h3 class="font-bold text-lg mb-4">📝 Participe!</h3>
+            <p class="text-sm text-gray-300 mb-4">
+              Cadastre-se para participar das discussões e conectar-se com outros corintianos.
+            </p>
+            <button class="w-full bg-white text-black py-2 rounded font-semibold">
+              Criar Conta
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

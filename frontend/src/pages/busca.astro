@@ -1,0 +1,165 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PostCard from '../components/PostCard.astro';
+import { searchPosts } from '../lib/search';
+
+// Pegar o termo de busca da URL
+const url = new URL(Astro.request.url);
+const searchQuery = url.searchParams.get('q') || '';
+
+// Buscar posts (só se tiver pelo menos 3 caracteres)
+const results = searchQuery && searchQuery.length >= 3 ? await searchPosts(searchQuery, 50) : [];
+
+const pageTitle = searchQuery ? `Busca por: ${searchQuery}` : 'Buscar';
+const routePrefix = import.meta.env.PUBLIC_ROUTE_PREFIX || 'apostas';
+---
+
+<Layout title={pageTitle}>
+  <div class="search-page">
+    <div class="search-header">
+      <h1>{pageTitle}</h1>
+      <form class="search-page-form" method="get" action="/buscar">
+        <input 
+          type="text" 
+          name="q" 
+          value={searchQuery}
+          placeholder="Buscar por título, conteúdo ou autor (mín. 3 letras)"
+          class="search-page-input"
+          minlength="3"
+        />
+        <button type="submit" class="search-page-button">Buscar</button>
+      </form>
+    </div>
+
+    {searchQuery && (
+      <div class="search-info">
+        <p>{results.length} {results.length === 1 ? 'resultado encontrado' : 'resultados encontrados'}</p>
+      </div>
+    )}
+
+    <div class="search-results-grid">
+      {results.length > 0 ? (
+        results.map((post) => (
+          <PostCard post={post} />
+        ))
+      ) : searchQuery && searchQuery.length < 3 ? (
+        <div class="no-results">
+          <p>Digite pelo menos 3 caracteres para buscar</p>
+        </div>
+      ) : searchQuery ? (
+        <div class="no-results">
+          <p>Nenhum resultado encontrado para "{searchQuery}"</p>
+          <p>Tente usar palavras diferentes ou verifique a ortografia.</p>
+        </div>
+      ) : (
+        <div class="no-results">
+          <p>Digite algo para buscar</p>
+        </div>
+      )}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .search-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .search-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .search-header h1 {
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    color: #333;
+  }
+
+  .search-page-form {
+    display: flex;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .search-page-input {
+    flex: 1;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+
+  .search-page-input:focus {
+    border-color: var(--color-primary, #007bff);
+  }
+
+  .search-page-button {
+    padding: 0.75rem 2rem;
+    background: var(--color-primary, #007bff);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .search-page-button:hover {
+    background: var(--color-primary-dark, #0056b3);
+    transform: translateY(-1px);
+  }
+
+  .search-info {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: #666;
+  }
+
+  .search-results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+
+  .no-results {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #666;
+  }
+
+  .no-results p {
+    margin-bottom: 1rem;
+  }
+
+  .no-results p:first-child {
+    font-size: 1.25rem;
+    color: #333;
+  }
+
+  @media (max-width: 768px) {
+    .search-page {
+      padding: 1rem;
+    }
+
+    .search-header h1 {
+      font-size: 1.5rem;
+    }
+
+    .search-page-form {
+      flex-direction: column;
+    }
+
+    .search-results-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+</style>

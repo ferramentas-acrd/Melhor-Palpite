@@ -1,0 +1,99 @@
+---
+import { getImageUrl } from '../lib/strapi';
+
+export interface Props {
+  media: any;
+  alt: string;
+  sizes?: string;
+  loading?: 'lazy' | 'eager';
+  class?: string;
+  isFeatured?: boolean;
+  priority?: boolean;
+}
+
+const {
+  media,
+  alt,
+  sizes = '100vw',
+  loading = 'lazy',
+  class: className = '',
+  isFeatured = false,
+  priority = false
+} = Astro.props;
+
+// Função para obter URL da imagem em diferentes tamanhos
+function getResponsiveUrls(media: any) {
+  const urls: { [key: string]: string } = {};
+
+  // Formatos disponíveis no Strapi (do menor para o maior)
+  const formats = ['thumbnail', 'small', 'medium', 'large'];
+
+  formats.forEach(format => {
+    if (media.formats?.[format]) {
+      urls[format] = getImageUrl(media, format as any);
+    }
+  });
+
+  // URL original como fallback
+  urls.original = getImageUrl(media);
+
+  return urls;
+}
+
+// Função para gerar srcset otimizado
+function generateSrcset(urls: { [key: string]: string }, media: any) {
+  const srcsetParts: string[] = [];
+
+  // Adicionar formatos disponíveis com suas larguras reais
+  if (urls.thumbnail && media.formats?.thumbnail?.width) {
+    srcsetParts.push(`${urls.thumbnail} ${media.formats.thumbnail.width}w`);
+  }
+  if (urls.small && media.formats?.small?.width) {
+    srcsetParts.push(`${urls.small} ${media.formats.small.width}w`);
+  }
+  if (urls.medium && media.formats?.medium?.width) {
+    srcsetParts.push(`${urls.medium} ${media.formats.medium.width}w`);
+  }
+  if (urls.large && media.formats?.large?.width) {
+    srcsetParts.push(`${urls.large} ${media.formats.large.width}w`);
+  }
+
+  // Adicionar original se for diferente do large
+  if (media.width && (!urls.large || media.width > media.formats?.large?.width)) {
+    srcsetParts.push(`${urls.original} ${media.width}w`);
+  }
+
+  return srcsetParts.join(', ');
+}
+
+// Obter URLs responsivas
+const urls = getResponsiveUrls(media);
+
+// Gerar srcset
+const srcset = generateSrcset(urls, media);
+
+// Determinar URL padrão baseado no contexto
+// Para mobile-first, começamos com imagem menor
+const defaultUrl = isFeatured
+  ? (urls.medium || urls.small || urls.original)
+  : (urls.small || urls.thumbnail || urls.original);
+
+// Obter dimensões para aspect ratio
+const dimensions = {
+  width: media.width || 800,
+  height: media.height || 450
+};
+---
+
+<img
+  src={defaultUrl}
+  srcset={srcset}
+  sizes={sizes}
+  alt={alt}
+  width={dimensions.width}
+  height={dimensions.height}
+  loading={loading}
+  fetchpriority={priority ? 'high' : undefined}
+  decoding={priority ? 'sync' : 'async'}
+  class={className}
+/>

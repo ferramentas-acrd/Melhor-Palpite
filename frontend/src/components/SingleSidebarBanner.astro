@@ -1,0 +1,79 @@
+---
+const { banners = [] } = Astro.props;
+const STRAPI_URL = import.meta.env.PUBLIC_STRAPI_URL;
+
+// Filtra banners com local = "single-sidebar"
+const sidebarBanners = Array.isArray(banners) ? banners.filter(b => b?.local === 'single-sidebar') : [];
+
+function getBannerUrl(banner: any): string {
+  if (!banner?.image) return '/placeholder.svg';
+  
+  const medium = banner.image.formats?.medium?.url;
+  const original = banner.image.url;
+  const url = medium || original;
+  
+  if (!url) return '/placeholder.svg';
+  return url.startsWith('http') ? url : `${STRAPI_URL}${url}`;
+}
+---
+
+{sidebarBanners.length > 0 && (
+  <div class="sidebar-banner">
+    {sidebarBanners.map((banner, index) => (
+      <a href={banner.url} class="banner-link" target="_blank" rel="noopener noreferrer">
+        <img
+          src={getBannerUrl(banner)}
+          alt={banner.image?.alternativeText || banner.title_banner || 'Banner'}
+          width="325"
+          height="250"
+          loading={index === 0 ? "eager" : "lazy"}
+        />
+      </a>
+    ))}
+  </div>
+)}
+
+<style>
+  .sidebar-banner {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 325px;
+    margin-left: 23px;
+    margin-bottom: 83px;
+    margin-top: 43px;
+  }
+
+  .banner-link {
+    display: block;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .banner-link:hover {
+    transform: translateY(-2px);
+  }
+
+  .banner-link img {
+    width: 100%;
+    max-width: 325px;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    display: block;
+    transition: box-shadow 0.3s ease;
+  }
+
+  .banner-link:hover img {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  @media (max-width: 768px) {
+    .sidebar-banner {
+      margin-left: 0;
+      margin-right: 0;
+      max-width: 100%;
+      padding: 0 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,116 @@
+---
+export const prerender = false;
+
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { getCategoryBySlug, getPostsByCategory, formatDate, getImageUrl, type Post } from '../../lib/strapi';
+
+const { slug } = Astro.params;
+
+// Buscar categoria pelo slug
+const category = await getCategoryBySlug(slug);
+
+if (!category) {
+  return Astro.redirect('/404');
+}
+
+// Buscar posts desta categoria
+let postsData: { data: Post[], meta: any } = { data: [], meta: {} };
+try {
+  postsData = await getPostsByCategory(slug);
+  console.log(`✅ Posts loaded for category ${category.name}:`, postsData.data.length);
+} catch (error) {
+  console.error('❌ Error loading posts for category:', error);
+}
+
+const posts = postsData.data;
+---
+
+<Layout title={`${category.name} - Corinthians Online`}>
+  <Header />
+  
+  <main class="min-h-screen bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb mb-6" aria-label="Breadcrumb">
+        <ol class="flex items-center space-x-2 text-sm text-gray-600">
+          <li><a href="/" class="hover:text-blue-600">Início</a></li>
+          <li>›</li>
+          <li><a href="/noticias" class="hover:text-blue-600">Notícias</a></li>
+          <li>›</li>
+          <li class="text-gray-900">{category.name}</li>
+        </ol>
+      </nav>
+
+      <!-- Category Header -->
+      <div class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">{category.name}</h1>
+        {category.description && (
+          <p class="text-gray-600">{category.description}</p>
+        )}
+      </div>
+
+      {posts.length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {posts.map((post) => (
+            <article class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+              <div class="relative">
+                <img 
+                  src={post.coverImage ? getImageUrl(post.coverImage, 'medium') : '/placeholder.svg'}
+                  alt={post.coverImage?.alternativeText || post.title}
+                  class="w-full h-48 object-cover"
+                />
+                {post.category && (
+                  <div class="absolute top-3 left-3">
+                    <span class="bg-black text-white px-2 py-1 rounded text-xs font-medium">
+                      {post.category.name}
+                    </span>
+                  </div>
+                )}
+              </div>
+              <div class="p-4">
+                <div class="flex items-center mb-2 text-xs text-gray-500">
+                  {post.authors?.[0] && (
+                    <>
+                      <span>Por {post.authors[0].name}</span>
+                      <span class="mx-2">•</span>
+                    </>
+                  )}
+                  <span>{formatDate(post.publishedAt || post.createdAt)}</span>
+                </div>
+                <h3 class="font-bold text-lg mb-2">
+                  <a href={`/${post.slug}`} class="hover:text-red-600 transition-colors">
+                    {post.title}
+                  </a>
+                </h3>
+                {post.excerpt && (
+                  <p class="text-gray-600 text-sm mb-3 line-clamp-3">
+                    {post.excerpt.length > 150 ? post.excerpt.substring(0, 150) + '...' : post.excerpt}
+                  </p>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="text-center py-12">
+          <p class="text-gray-500 text-lg">
+            Nenhuma publicação encontrada nesta categoria.
+          </p>
+        </div>
+      )}
+    </div>
+  </main>
+  
+  <Footer />
+</Layout>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

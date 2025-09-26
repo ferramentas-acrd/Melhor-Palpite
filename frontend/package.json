@@ -1,0 +1,21 @@
+{
+  "name": "melhor-palpite-frontend",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/node": "^9.4.4",
+    "@tailwindcss/vite": "^4.1.13",
+    "astro": "^5.13.10",
+    "axios": "^1.12.2",
+    "tailwindcss": "^4.1.13"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.1"
+  }
+}

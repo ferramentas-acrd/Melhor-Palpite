@@ -1,0 +1,165 @@
+---
+export const prerender = false;
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getPostBySlug, formatDate, getImageUrl, renderBlocks, type Post } from '../lib/strapi';
+
+const { slug } = Astro.params;
+
+// Buscar o post pelo slug
+const post: Post | null = await getPostBySlug(slug);
+
+if (!post) {
+  return Astro.redirect('/404');
+}
+
+// Se o slug encontrado é diferente do slug solicitado, redirecionar
+if (post.slug !== slug) {
+  return Astro.redirect(`/${post.slug}`, 301);
+}
+
+const publishDate = post.publishedAt || post.createdAt;
+---
+
+<Layout title={post.title}>
+  <Header />
+  
+  <main class="min-h-screen bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb mb-6" aria-label="Breadcrumb">
+        <ol class="flex items-center space-x-2 text-sm text-gray-600">
+          <li><a href="/" class="hover:text-blue-600">Início</a></li>
+          <li>›</li>
+          <li><a href="/noticias" class="hover:text-blue-600">Notícias</a></li>
+          <li>›</li>
+          <li class="text-gray-900 truncate">{post.title.substring(0, 50)}...</li>
+        </ol>
+      </nav>
+
+      <!-- Article Container -->
+      <div class="max-w-4xl mx-auto">
+        <article class="bg-white rounded-lg shadow-lg overflow-hidden">
+          <!-- Featured Image -->
+          {post.coverImage && (
+            <div class="relative">
+              <img 
+                src={getImageUrl(post.coverImage, 'large')}
+                alt={post.coverImage.alternativeText || post.title}
+                class="w-full h-96 object-cover"
+              />
+              {post.category && (
+                <div class="absolute top-6 left-6">
+                  <span class="bg-red-600 text-white px-3 py-2 rounded-lg text-sm font-bold">
+                    {post.category.name}
+                  </span>
+                </div>
+              )}
+            </div>
+          )}
+          
+          <!-- Article Header -->
+          <header class="p-6 pb-0">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 leading-tight">
+              {post.title}
+            </h1>
+            
+            {post.excerpt && (
+              <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                {post.excerpt}
+              </p>
+            )}
+
+            <div class="flex items-center text-sm text-gray-500 mb-6">
+              {post.authors?.[0] && (
+                <>
+                  <span class="font-medium">Por {post.authors[0].name}</span>
+                  <span class="mx-2">•</span>
+                </>
+              )}
+              <time datetime={publishDate}>
+                {formatDate(publishDate)}
+              </time>
+              {post.category && (
+                <>
+                  <span class="mx-2">•</span>
+                  <span>{post.category.name}</span>
+                </>
+              )}
+            </div>
+          </header>
+
+          <!-- Article Content -->
+          <div class="p-6">
+            <div class="prose prose-lg max-w-none">
+              {post.content && post.content.length > 0 ? (
+                <div set:html={renderBlocks(post.content)} />
+              ) : (
+                <div>
+                  <p class="text-gray-700 leading-relaxed text-lg mb-6">
+                    {post.excerpt || 'Este conteúdo está sendo preparado. Em breve você poderá ler o artigo completo.'}
+                  </p>
+                  
+                  <div class="bg-gray-50 border-l-4 border-red-600 p-4 my-6">
+                    <div class="flex">
+                      <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+                          <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd" />
+                        </svg>
+                      </div>
+                      <div class="ml-3">
+                        <p class="text-sm text-red-700">
+                          <strong>Conteúdo em preparação:</strong> Este artigo está sendo finalizado pela redação.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <p class="text-gray-600 text-sm">
+                    <strong>Data de publicação:</strong> {formatDate(publishDate)}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          <!-- Back to News & Tags -->
+          <div class="p-6 border-t bg-gray-50">
+            {post.tags && post.tags.length > 0 && (
+              <div class="mb-4">
+                <h3 class="text-sm font-medium text-gray-700 mb-2">Tags:</h3>
+                <div class="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <a 
+                      href={`/tag/${tag.slug}`}
+                      class="inline-block bg-gray-200 hover:bg-gray-300 text-gray-700 text-xs px-2 py-1 rounded transition-colors"
+                    >
+                      {tag.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+            
+            <div class="flex justify-between items-center">
+              <a href="/noticias" class="inline-flex items-center text-red-600 hover:text-red-800 font-medium transition-colors">
+                ← Voltar para todas as notícias
+              </a>
+              
+              {post.category && (
+                <a href={`/categoria/${post.category.slug}`} class="inline-flex items-center text-gray-600 hover:text-gray-800 font-medium transition-colors">
+                  Ver mais de {post.category.name} →
+                </a>
+              )}
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+  
+  <Footer />
+</Layout>
+

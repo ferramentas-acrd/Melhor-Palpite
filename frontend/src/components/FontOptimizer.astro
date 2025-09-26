@@ -1,0 +1,105 @@
+                                                                                                                    ---
+// Componente otimizado para fontes locais - carregamento unificado e eficiente
+// Usa apenas as fontes Inter locais já baixadas
+
+export interface Props {
+  priority?: boolean;
+}
+
+const { priority = false } = Astro.props;
+---
+
+<!-- Preload das fontes locais críticas -->
+<link rel="preload" href="/apostas/fonts/inter-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/apostas/fonts/inter-600.woff2" as="font" type="font/woff2" crossorigin>
+{priority && (
+  <link rel="preload" href="/apostas/fonts/inter-500.woff2" as="font" type="font/woff2" crossorigin>
+)}
+
+ <!-- CSS inline com definições de fonte locais otimizadas -->
+<style is:inline>
+  /* Definições de fonte Inter local - apenas pesos essenciais */
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: local('Inter Regular'), local('Inter-Regular'),
+         url('/apostas/fonts/inter-400.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: local('Inter Medium'), local('Inter-Medium'),
+         url('/apostas/fonts/inter-500.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: local('Inter SemiBold'), local('Inter-SemiBold'),
+         url('/apostas/fonts/inter-600.woff2') format('woff2');
+    unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+
+  /* Font stack otimizado com Inter local como prioridade */
+  :root {
+    --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    --font-family-secondary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  }
+
+  /* Aplicar fonte global */
+  body {
+    font-family: var(--font-family-primary);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Otimizações para rendering */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-family-primary);
+  }
+
+  /* Font loading class para evitar FOUT */
+  .fonts-loading {
+    visibility: hidden;
+  }
+  
+  .fonts-loaded {
+    visibility: visible;
+  }
+</style>
+
+<!-- Script otimizado para controle de carregamento de fontes locais -->
+<script is:inline>
+  // Detectar quando as fontes locais estão carregadas
+  if ('fonts' in document) {
+    // Verificar especificamente as fontes Inter que definimos
+    Promise.all([
+      document.fonts.load('400 16px Inter'),
+      document.fonts.load('600 16px Inter'),
+      document.fonts.load('500 16px Inter')
+    ]).then(() => {
+      document.documentElement.classList.add('fonts-loaded');
+      document.documentElement.classList.remove('fonts-loading');
+    }).catch(() => {
+      // Fallback se houver erro no carregamento
+      document.documentElement.classList.add('fonts-loaded');
+      document.documentElement.classList.remove('fonts-loading');
+    });
+  } else {
+    // Fallback para navegadores antigos
+    window.addEventListener('load', () => {
+      document.documentElement.classList.add('fonts-loaded');
+      document.documentElement.classList.remove('fonts-loading');
+    });
+  }
+</script>

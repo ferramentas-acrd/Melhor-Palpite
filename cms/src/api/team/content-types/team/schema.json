@@ -1,0 +1,119 @@
+{
+  "kind": "collectionType",
+  "collectionName": "teams",
+  "info": {
+    "singularName": "team",
+    "pluralName": "teams",
+    "displayName": "Team",
+    "description": "Times de futebol"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true,
+      "maxLength": 100
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "shortName": {
+      "type": "string",
+      "maxLength": 10
+    },
+    "nickname": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "description": {
+      "type": "text"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "primaryColor": {
+      "type": "string",
+      "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+      "default": "#000000"
+    },
+    "secondaryColor": {
+      "type": "string",
+      "regex": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$",
+      "default": "#ffffff"
+    },
+    "founded": {
+      "type": "integer",
+      "min": 1800,
+      "max": 2100
+    },
+    "stadium": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "city": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "state": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "country": {
+      "type": "string",
+      "maxLength": 50,
+      "default": "Brasil"
+    },
+    "league": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "position": {
+      "type": "integer",
+      "min": 1
+    },
+    "points": {
+      "type": "integer",
+      "default": 0
+    },
+    "wins": {
+      "type": "integer",
+      "default": 0
+    },
+    "draws": {
+      "type": "integer",
+      "default": 0
+    },
+    "losses": {
+      "type": "integer",
+      "default": 0
+    },
+    "goalsFor": {
+      "type": "integer",
+      "default": 0
+    },
+    "goalsAgainst": {
+      "type": "integer",
+      "default": 0
+    },
+    "website": {
+      "type": "string",
+      "maxLength": 255
+    },
+    "socialMedia": {
+      "type": "json"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

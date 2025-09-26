@@ -1,0 +1,247 @@
+---
+import { getSocialMedia } from '../lib/social-media';
+import { getSiteData } from '../lib/strapi';
+
+export interface Props {
+  title: string;
+  description?: string;
+  canonicalUrl?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article';
+  robots?: string;
+  customSchema?: object; // Para schemas customizados como BlogPosting/NewsArticle
+}
+
+const { 
+  title, 
+  description, 
+  canonicalUrl, 
+  ogImage, 
+  ogType = 'website', 
+  robots = 'index, follow',
+  customSchema
+} = Astro.props;
+
+const siteData = await getSiteData();
+const strapiBaseUrl = import.meta.env.PUBLIC_STRAPI_URL || 'http://localhost:1337';
+const siteName = siteData?.Name_site || 'Portal de Notícias';
+const siteDescription = siteData?.Description || `${siteName} - Últimas notícias e atualizações`;
+const logoUrl = siteData?.Logo?.url ? `${strapiBaseUrl}${siteData.Logo.url}` : null;
+const faviconUrl = siteData?.favicon?.url ? `${strapiBaseUrl}${siteData.favicon.url}` : '/favicon.svg';
+const faviconType = siteData?.favicon?.mime || 'image/svg+xml';
+const headerColor = siteData?.color_base;
+
+// Buscar dados das redes sociais
+const socialMedia = await getSocialMedia();
+
+// Função para gerar Schema.org WebPage separado
+function generateWebPageSchema(siteData: any, currentUrl: string, pageTitle?: string, pageDescription?: string) {
+  if (!siteData) return null;
+
+  const baseUrl = import.meta.env.PUBLIC_BASE_URL || `${Astro.url.protocol}//${Astro.url.host}`;
+  const logoUrl = siteData.Logo?.url 
+    ? (siteData.Logo.url.startsWith('http') 
+        ? siteData.Logo.url 
+        : `${strapiBaseUrl}${siteData.Logo.url}`)
+    : null;
+
+  const webPageSchema = {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "@id": `${currentUrl}#webpage`,
+    "url": currentUrl,
+    "name": pageTitle || siteData.titulo_base || `${siteData.Name_site}`,
+    "description": pageDescription || siteData.subtitulo_base || siteData.Description || `${siteData.Name_site} - Últimas notícias e atualizações`,
+    "inLanguage": "pt-BR",
+    "isPartOf": {
+      "@type": "WebSite",
+      "@id": `${baseUrl}#website`,
+      "url": baseUrl,
+      "name": siteData.Name_site || siteName,
+      "alternateName": siteData.Name_site || siteName,
+      "description": siteData.Description || siteDescription,
+      "inLanguage": "pt-BR",
+      "publisher": {
+        "@type": "Organization",
+        "@id": `${baseUrl}#organization`
+      }
+    },
+    ...(logoUrl && {
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "@id": `${currentUrl}#primaryimage`,
+        "inLanguage": "pt-BR",
+        "url": logoUrl,
+        "contentUrl": logoUrl,
+        "caption": siteData.Logo?.alternativeText || `Logo ${siteData.Name_site || siteName}`
+      }
+    }),
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "@id": `${currentUrl}#breadcrumb`,
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Início"
+        }
+      ]
+    },
+    "about": {
+      "@type": "Organization",
+      "@id": `${baseUrl}#organization`
+    }
+  };
+
+  // Remove campos undefined/null para limpeza
+  return JSON.parse(JSON.stringify(webPageSchema, (key, value) => {
+    if (value === undefined || value === null || (Array.isArray(value) && value.length === 0)) {
+      return undefined;
+    }
+    return value;
+  }));
+}
+
+// Função para gerar Schema.org Organization separado
+function generateOrganizationSchema(siteData: any) {
+  if (!siteData) return null;
+
+  const baseUrl = import.meta.env.PUBLIC_BASE_URL || `${Astro.url.protocol}//${Astro.url.host}`;
+  const logoUrl = siteData.Logo?.url 
+    ? (siteData.Logo.url.startsWith('http') 
+        ? siteData.Logo.url 
+        : `${strapiBaseUrl}${siteData.Logo.url}`)
+    : null;
+
+  const socialMediaUrls = socialMedia 
+    ? Object.values(socialMedia).filter((url): url is string => 
+        typeof url === 'string' && url.trim() !== '' && url !== null
+      )
+    : [];
+
+  const organizationSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${baseUrl}#organization`,
+    "name": siteData.organization_name || siteData.Name_site || siteName,
+    "alternateName": siteData.Name_site || siteName,
+    "url": baseUrl,
+    "description": siteData.Description || siteDescription,
+    "legalName": siteData.legalname || siteData.Name_site || siteName,
+    "foundingDate": siteData.foundingdate 
+      ? new Date(siteData.foundingdate).toISOString().split('T')[0] 
+      : "1951-06-05", // Data padrão baseada no exemplo
+    "publishingPrinciples": `${baseUrl}/aviso-legal`,
+    ...(logoUrl && {
+      "logo": {
+        "@type": "ImageObject",
+        "@id": `${baseUrl}#/schema/logo/image/`,
+        "inLanguage": "pt-BR",
+        "url": logoUrl,
+        "contentUrl": logoUrl,
+        "caption": siteData.Logo?.alternativeText || siteData.Name_site || siteName
+      }
+    }),
+    ...(logoUrl && {
+      "image": {
+        "@type": "ImageObject",
+        "@id": `${baseUrl}#/schema/logo/image/`,
+        "inLanguage": "pt-BR",
+        "url": logoUrl,
+        "contentUrl": logoUrl,
+        "caption": siteData.Logo?.alternativeText || siteData.Name_site || siteName
+      }
+    }),
+    ...(socialMediaUrls.length > 0 && {
+      "sameAs": socialMediaUrls
+    }),
+    "numberOfEmployees": {
+      "@type": "QuantitativeValue",
+      "minValue": 201,
+      "maxValue": 500
+    }
+  };
+
+  // Remove campos undefined/null para limpeza
+  return JSON.parse(JSON.stringify(organizationSchema, (key, value) => {
+    if (value === undefined || value === null || (Array.isArray(value) && value.length === 0)) {
+      return undefined;
+    }
+    return value;
+  }));
+}
+
+const currentUrl = canonicalUrl || Astro.url?.href || import.meta.env.PUBLIC_BASE_URL || 'https://strapiklaos.klaos.curitiba.br';
+
+// Gerar schemas separados (apenas se não houver schema customizado)
+const webPageSchema = !customSchema ? generateWebPageSchema(siteData, currentUrl, title, description) : null;
+const organizationSchema = generateOrganizationSchema(siteData);
+
+// Preparar meta tags de SEO
+const pageTitle = `${title} | ${siteName}`;
+const pageDescription = description || siteDescription;
+const pageUrl = canonicalUrl || currentUrl;
+
+// Imagem para Open Graph - prioridade: ogImage passada como prop > logo do site > imagem padrão
+const defaultOgImage = logoUrl || `${import.meta.env.PUBLIC_BASE_URL || currentUrl.split('/').slice(0, 3).join('/')}/og-default.png`;
+const ogImageUrl = ogImage || defaultOgImage;
+
+// Twitter handle do site (buscar das redes sociais se disponível)
+const twitterHandle = socialMedia?.twitter 
+  ? socialMedia.twitter.split('/').pop()?.replace('@', '') || 'seuusuario'
+  : 'seuusuario';
+---
+
+
+
+<title>{pageTitle}</title>
+<meta name="description" content={pageDescription} />
+<link rel="canonical" href={pageUrl} />
+<meta name="robots" content={robots} />
+<meta name="language" content="pt-BR" />
+<meta name="author" content={siteName} />
+
+<!-- Favicon -->
+<link rel="icon" type={faviconType} href={faviconUrl} />
+<link rel="apple-touch-icon" href={faviconUrl} />
+
+<!-- RSS Feed -->
+<link rel="alternate" type="application/rss+xml" title={`${siteName} - RSS Feed`} href="/rss.xml" />
+
+<!-- Open Graph Meta Tags -->
+<meta property="og:type" content={ogType} />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={pageDescription} />
+<meta property="og:image" content={ogImageUrl} />
+<meta property="og:url" content={pageUrl} />
+<meta property="og:site_name" content={siteName} />
+<meta property="og:locale" content="pt_BR" />
+{logoUrl && <meta property="og:logo" content={logoUrl} />}
+
+<!-- Twitter Card Meta Tags -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={pageDescription} />
+<meta name="twitter:image" content={ogImageUrl} />
+<meta name="twitter:site" content={`@${twitterHandle}`} />
+<meta name="twitter:creator" content={`@${twitterHandle}`} />
+
+<!-- Additional SEO Meta Tags -->
+<meta name="theme-color" content={headerColor || '#F0DD24'} />
+<meta name="msapplication-TileColor" content={headerColor || '#F0DD24'} />
+<meta name="application-name" content={siteName} />
+
+<!-- Schema.org JSON-LD - Custom Schema (BlogPosting/NewsArticle para posts) -->
+{customSchema && (
+  <script type="application/ld+json" set:html={JSON.stringify(customSchema, null, 0)} />
+)}
+
+<!-- Schema.org JSON-LD - WebPage Schema (apenas se não houver schema customizado) -->
+{webPageSchema && (
+  <script type="application/ld+json" set:html={JSON.stringify(webPageSchema, null, 0)} />
+)}
+
+<!-- Schema.org JSON-LD - Organization Schema -->
+{organizationSchema && (
+  <script type="application/ld+json" set:html={JSON.stringify(organizationSchema, null, 0)} />
+)}

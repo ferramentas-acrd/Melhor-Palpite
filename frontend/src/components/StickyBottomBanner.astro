@@ -1,0 +1,198 @@
+---
+import { getBanners } from '../lib/strapi';
+
+// Buscar banners sem filtro de local específico para permitir flexibilidade
+const banners = await getBanners();
+const STRAPI_URL = import.meta.env.PUBLIC_STRAPI_URL;
+
+// Filtra banners que não têm local definido OU têm local "sticky-bottom" (para usar como sticky bottom)
+const stickyBanners = Array.isArray(banners) ? banners.filter(b => 
+  !b?.local || 
+  b?.local === null || 
+  b?.local === '' || 
+  b?.local === 'sticky-bottom'
+) : [];
+
+function getBannerUrl(banner: any): string {
+  if (!banner?.image) return '/placeholder.svg';
+  
+  // Para banners sticky bottom, usar o formato original para melhor qualidade
+  const original = banner.image.url;
+  const large = banner.image.formats?.large?.url;
+  const medium = banner.image.formats?.medium?.url;
+  
+  // Prioridade: original > large > medium (para manter qualidade do GIF)
+  const url = original || large || medium;
+  
+  if (!url) return '/placeholder.svg';
+  return url.startsWith('http') ? url : `${STRAPI_URL}${url}`;
+}
+---
+
+{stickyBanners && stickyBanners.length > 0 && (
+  <div class="sticky-bottom-banner" data-banner-count={stickyBanners.length}>
+    <div class="banner-container">
+      <button class="banner-close" aria-label="Fechar banner">×</button>
+      {stickyBanners.slice(0, 1).map((banner) => {
+        const bannerUrl = getBannerUrl(banner);
+        
+        return (
+          <a href={banner.url || '#'} class="banner-link" target="_blank" rel="noopener noreferrer">
+            <img
+              src={bannerUrl}
+              alt={banner.image?.alternativeText || banner.title_banner || 'Banner'}
+              width="100%"
+              height="90"
+              loading="lazy"
+            />
+          </a>
+        );
+      })}
+    </div>
+  </div>
+)}
+
+<style>
+  .sticky-bottom-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1002; /* Maior que o header para garantir que apareça acima */
+    background: white;
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15);
+    padding: 8px 0;
+    width: 100%;
+    display: none; /* Inicialmente oculto, será mostrado via JS apenas no desktop */
+    transform: translateY(100%); /* Inicialmente fora da tela */
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+    opacity: 0;
+  }
+
+  .banner-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+
+  .banner-close {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: #333;
+    color: white;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+    z-index: 1003; /* Maior que o banner */
+  }
+
+  .banner-close:hover {
+    background: #555;
+  }
+
+  .banner-link {
+    display: block;
+    transition: opacity 0.3s ease;
+    width: 100%;
+  }
+
+  .banner-link:hover {
+    opacity: 0.9;
+  }
+
+  .banner-link img {
+    width: 100%;
+    height: auto;
+    min-height: 90px;
+    max-height: 120px;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* Mostrar apenas em desktop */
+  @media (min-width: 1024px) {
+    .sticky-bottom-banner {
+      display: block;
+    }
+  }
+
+  /* Classes para animação */
+  .sticky-bottom-banner.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .sticky-bottom-banner.hide {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+</style>
+
+<script>
+  // Script para controlar a exibição e fechamento do banner
+  document.addEventListener('DOMContentLoaded', () => {
+    const banner = document.querySelector('.sticky-bottom-banner') as HTMLElement;
+    const closeButton = document.querySelector('.banner-close') as HTMLElement;
+    
+    if (!banner || !closeButton) {
+      return;
+    }
+
+    // Verificar se é desktop (largura mínima 1024px)
+    const isDesktop = () => window.innerWidth >= 1024;
+
+    // Verificar se o banner foi fechado anteriormente
+    const bannerClosed = localStorage.getItem('stickyBannerClosed');
+    
+    if (!bannerClosed && isDesktop()) {
+      // Mostrar banner após 2 segundos
+      setTimeout(() => {
+        banner.classList.add('show');
+      }, 2000);
+    } else {
+      // Se foi fechado ou não é desktop, não mostrar
+      banner.style.display = 'none';
+    }
+
+    // Função para fechar banner
+    closeButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      
+      banner.classList.remove('show');
+      banner.classList.add('hide');
+      
+      // Salvar no localStorage que foi fechado
+      localStorage.setItem('stickyBannerClosed', 'true');
+      
+      // Remover do DOM após animação
+      setTimeout(() => {
+        banner.style.display = 'none';
+      }, 300);
+    });
+
+    // Reexibir banner se redimensionar para desktop
+    window.addEventListener('resize', () => {
+      if (!bannerClosed && isDesktop() && !banner.classList.contains('show')) {
+        banner.style.display = 'block';
+        setTimeout(() => {
+          banner.classList.add('show');
+        }, 100);
+      } else if (!isDesktop()) {
+        banner.style.display = 'none';
+      }
+    });
+  });
+</script>

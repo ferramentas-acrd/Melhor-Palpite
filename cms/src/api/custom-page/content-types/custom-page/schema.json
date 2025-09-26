@@ -1,0 +1,72 @@
+{
+  "kind": "collectionType",
+  "collectionName": "custom_pages",
+  "info": {
+    "singularName": "custom-page",
+    "pluralName": "custom-pages",
+    "displayName": "Custom Page",
+    "description": "Páginas personalizadas com layout customizado"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "hero_section": {
+      "type": "component",
+      "repeatable": false,
+      "component": "page.hero-section"
+    },
+    "content_blocks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "page.content-block"
+    },
+    "sidebar_widgets": {
+      "type": "component",
+      "repeatable": true,
+      "component": "widget.sidebar-widget"
+    },
+    "show_sidebar": {
+      "type": "boolean",
+      "default": true
+    },
+    "template": {
+      "type": "enumeration",
+      "enum": [
+        "default",
+        "full_width",
+        "landing_page",
+        "contact",
+        "about"
+      ],
+      "default": "default"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    },
+    "featured_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "excerpt": {
+      "type": "text"
+    },
+    "css_classes": {
+      "type": "string"
+    }
+  }
+}

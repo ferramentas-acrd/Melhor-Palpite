@@ -1,0 +1,233 @@
+---
+import { formatDate, getPostDate } from '../lib/strapi';
+import type { Post } from '../lib/strapi';
+
+export interface Props {
+  posts: Post[];
+  title?: string;
+  limit?: number;
+}
+
+const { posts = [], title = 'Últimas Notícias', limit = 5 } = Astro.props;
+const latest = posts.slice(0, limit);
+---
+
+<section class="ultimas-noticias">
+  <div class="un-header">
+    <h2 class="un-title">{title}</h2>
+  </div>
+  <div class="un-grid">
+    {latest.map((post) => (
+      <article class="un-card">
+        <a href={`/apostas/${post.slug}`} class="un-link">
+          <div class="un-content">
+            <div class="un-meta">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" class="un-clock">
+                <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M16.2,16.2L11,13V7H12.5V12.2L17,14.7L16.2,16.2Z" />
+              </svg>
+              <time class="un-date" datetime={getPostDate(post)}>
+                {formatDate(getPostDate(post))}
+              </time>
+            </div>
+            <h3 class="un-text">{post.title}</h3>
+          </div>
+        </a>
+      </article>
+    ))}
+  </div>
+</section>
+
+<style>
+  .ultimas-noticias {
+    padding: 2rem 0;
+    margin: 2rem 0;
+    /* CLS: reservar espaço e isolar layout */
+    min-height: 300px;
+    contain: layout paint;
+    content-visibility: auto;
+    contain-intrinsic-size: 400px;
+    box-sizing: border-box;
+  }
+
+  .un-header {
+    margin-bottom: 2rem;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1rem;
+    /* CLS: reservar espaço para título */
+    min-height: 60px;
+  }
+
+  .un-title {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: "Merriweather", Georgia, serif;
+    margin: 0;
+    color: #01676E;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+  }
+
+  .un-grid {
+    display: flex;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .un-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid #e0e0e0;
+    /* CLS: melhorias para estabilidade dos cards */
+    min-height: 169px;
+    contain: layout paint;
+    will-change: transform;
+    transform: translateZ(0);
+    box-sizing: border-box;
+  }
+
+  .un-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+  }
+
+  .un-link {
+    text-decoration: none;
+    display: block;
+    height: 100%;
+    color: inherit;
+  }
+
+  .un-content {
+    padding: 1.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 140px;
+    /* CLS: garantir altura estável */
+    box-sizing: border-box;
+  }
+
+  .un-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .un-clock {
+    color: #01676E;
+    flex-shrink: 0;
+  }
+
+  .un-date {
+    font-size: 0.8rem;
+    color: #666;
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+  }
+
+  .un-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    font-family: "Merriweather", Georgia, serif;
+    color: #333;
+    line-height: 1.4;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .un-link:hover .un-text {
+    color: #01676E;
+  }
+
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .ultimas-noticias {
+      min-height: 250px;
+      contain-intrinsic-size: 320px;
+    }
+
+    .un-grid {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+      padding: 0 0.5rem;
+      min-height: 150px;
+    }
+    
+    .un-title {
+      font-size: 1.7rem;
+    }
+
+    .un-card {
+      min-height: 130px;
+    }
+    
+    .un-content {
+      padding: 1.25rem;
+      min-height: 110px;
+    }
+    
+    .un-text {
+      font-size: 0.9rem;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+    }
+
+    .un-date {
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .ultimas-noticias {
+      padding: 1.5rem 0;
+      min-height: 200px;
+      contain-intrinsic-size: 260px;
+    }
+    
+    .un-header {
+      margin-bottom: 1.5rem;
+      min-height: 50px;
+    }
+    
+    .un-title {
+      font-size: 1.5rem;
+    }
+
+    .un-grid {
+      min-height: 120px;
+    }
+
+    .un-card {
+      min-height: 110px;
+    }
+    
+    .un-content {
+      padding: 1rem;
+      min-height: 100px;
+    }
+
+    .un-text {
+      font-size: 0.85rem;
+    }
+
+    .un-date {
+      font-size: 0.7rem;
+    }
+
+    .un-clock {
+      width: 12px;
+      height: 12px;
+    }
+  }
+</style>

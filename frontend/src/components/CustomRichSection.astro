@@ -1,0 +1,110 @@
+---
+import AnchorNav from './AnchorNav.astro';
+import '../styles/components/richtext.css';
+export interface Props {
+  title?: string;
+  blocks: any[];
+  showAnchorNav?: boolean;
+  anchorNavTitle?: string;
+  anchorPosition?: 'side' | 'top';
+  maxWidth?: string;
+  bgColor?: string;
+  textColor?: string;
+  anchorNavBgColor?: string;
+  anchorNavActiveColor?: string;
+}
+
+const { 
+  title,
+  blocks,
+  showAnchorNav = false,
+  anchorNavTitle = "Índice",
+  anchorPosition = 'side',
+  maxWidth = '1400px',
+  bgColor = 'transparent',
+  textColor = '#333',
+  anchorNavBgColor = 'white',
+  anchorNavActiveColor
+} = Astro.props;
+
+// Função para renderizar blocos
+function renderBlock(block: any): string {
+  switch(block.type) {
+    case 'heading':
+      const level = block.level || 2;
+      const headingText = block.children?.[0]?.text || '';
+      const headingId = headingText.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+      return `<h${level} id="${headingId}">${headingText}</h${level}>`;
+    
+    case 'paragraph':
+      const text = block.children?.map((child: any) => child.text).join('') || '';
+      if (!text.trim()) return '';
+      return `<p>${text}</p>`;
+    
+    default:
+      return '';
+  }
+}
+---
+
+<section class="rich-text-section">
+  <div class="rich-container">
+    {title && <h1 class="rich-main-title">{title}</h1>}
+    
+    <div class={`article-home-layout ${anchorPosition === 'side' && showAnchorNav ? 'with-sidebar' : ''}`}>
+      <!-- Conteúdo Principal -->
+      <div class="article-home-body">
+        {blocks.map((block) => (
+          <Fragment set:html={renderBlock(block)} />
+        ))}
+      </div>
+
+      <!-- Navegação de Âncoras (lateral) -->
+      {showAnchorNav && anchorPosition === 'side' && (
+        <aside class="anchor-sidebar">
+          <AnchorNav 
+            contentSelector=".article-home-body"
+            title={anchorNavTitle}
+            activeColor={anchorNavActiveColor}
+            backgroundColor={anchorNavBgColor}
+          />
+        </aside>
+      )}
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Prevenção de CLS para conteúdo dinâmico */
+  .article-home-body {
+    min-height: 200px; /* Altura mínima para evitar layout shift */
+    line-height: 1.6;
+  }
+
+  .article-home-body h1,
+  .article-home-body h2,
+  .article-home-body h3,
+  .article-home-body h4,
+  .article-home-body h5,
+  .article-home-body h6 {
+    min-height: 1.2em;
+    line-height: 1.2;
+    margin: 1.5rem 0 1rem;
+  }
+
+  .article-home-body p {
+    min-height: 1.2em;
+    margin-bottom: 1rem;
+    line-height: 1.6;
+  }
+
+  .article-home-body img {
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+    display: block;
+    margin: 1rem 0;
+  }
+</style>
+

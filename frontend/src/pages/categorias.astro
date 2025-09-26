@@ -1,0 +1,34 @@
+---
+export const prerender = false;
+
+import Layout from '../layouts/Layout.astro';
+import CategoryCard from '../components/CategoryCard.astro';
+import { getCategories } from '../lib/strapi';
+import { checkTrailingSlashRedirect } from '../lib/utils';
+
+// Verificar se a URL atual termina com slash, se não, redirecionar
+const redirectResponse = checkTrailingSlashRedirect(Astro);
+if (redirectResponse) {
+  return redirectResponse;
+}
+
+const categories = await getCategories();
+---
+
+<Layout title="Categorias">
+  <div class="container mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold text-gray-900 mb-12">Categorias</h1>
+    
+    {categories.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {categories.map((category) => (
+          <CategoryCard category={category} />
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12">
+        <p class="text-gray-500 text-lg">Nenhuma categoria encontrada.</p>
+      </div>
+    )}
+  </div>
+</Layout>

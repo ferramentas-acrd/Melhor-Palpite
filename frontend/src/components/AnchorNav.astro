@@ -1,0 +1,137 @@
+---
+import '../styles/components/archornav.css';
+
+export interface Props {
+  contentSelector?: string; // Seletor do conteúdo a ser analisado
+  title?: string; // Título customizável
+  activeColor?: string; // Cor ativa customizável
+  backgroundColor?: string; // Cor de fundo customizável
+}
+
+const { 
+  contentSelector = '.article-content, .custom-content', 
+  title = 'Índice',
+  activeColor,
+  backgroundColor = 'white'
+} = Astro.props;
+---
+
+<nav class="anchor-nav" id="anchorNav" data-content-selector={contentSelector}>
+  <h3 class="anchor-nav-title">{title}</h3>
+  <ul class="anchor-nav-list" id="anchorList">
+    <!-- Será preenchido dinamicamente via JavaScript -->
+  </ul>
+</nav>
+
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const anchorNav = document.getElementById('anchorNav') as HTMLElement;
+    if (!anchorNav) return;
+
+    const contentSelector = anchorNav.dataset.contentSelector || '.article-content';
+    const contentElement = document.querySelector(contentSelector);
+    const anchorList = document.getElementById('anchorList');
+    
+    if (!contentElement || !anchorList) {
+      anchorNav.style.display = 'none';
+      return;
+    }
+    
+    // Buscar todos os headings no conteúdo
+    const headings = contentElement.querySelectorAll('h2, h3, h4');
+    
+    if (headings.length === 0) {
+      anchorNav.style.display = 'none';
+      return;
+    }
+    
+    // Criar links de âncora para cada heading
+    headings.forEach((heading, index) => {
+      // Adicionar ID ao heading se não tiver
+      if (!heading.id) {
+        const text = heading.textContent || '';
+        heading.id = `section-${index}-${text.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '')}`;
+      }
+      
+      // Criar item da lista
+      const li = document.createElement('li');
+      li.className = 'anchor-nav-item';
+      
+      const a = document.createElement('a');
+      a.href = `#${heading.id}`;
+      a.className = 'anchor-nav-link';
+      a.textContent = heading.textContent || '';
+      
+      // Adicionar classe de nível baseado no tipo de heading
+      if (heading.tagName === 'H2') {
+        a.classList.add('level-1');
+      } else if (heading.tagName === 'H3') {
+        a.classList.add('level-2');
+      } else if (heading.tagName === 'H4') {
+        a.classList.add('level-3');
+      }
+      
+      li.appendChild(a);
+      anchorList.appendChild(li);
+    });
+    
+    // Smooth scroll ao clicar
+    anchorList.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      if (target && target.matches('a')) {
+        e.preventDefault();
+        const targetId = target.getAttribute('href')?.slice(1);
+        const targetElement = document.getElementById(targetId || '');
+        
+        if (targetElement) {
+          const headerHeight = 80;
+          const elementPosition = targetElement.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerHeight;
+          
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: 'smooth'
+          });
+        }
+      }
+    });
+    
+    // Destacar seção atual durante o scroll
+    let ticking = false;
+    function updateActiveSection() {
+      const scrollPosition = window.scrollY + 100;
+      
+      let currentSection = '';
+      headings.forEach((heading) => {
+        const section = heading as HTMLElement;
+        if (section.offsetTop <= scrollPosition) {
+          currentSection = section.id;
+        }
+      });
+      
+      // Atualizar classe active
+      if (anchorList) {
+        anchorList.querySelectorAll('a').forEach((link) => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === `#${currentSection}`) {
+            link.classList.add('active');
+          }
+        });
+      }
+      
+      ticking = false;
+    }
+    
+    function requestTick() {
+      if (!ticking) {
+        window.requestAnimationFrame(updateActiveSection);
+        ticking = true;
+      }
+    }
+    
+    window.addEventListener('scroll', requestTick);
+    updateActiveSection();
+  });
+</script>

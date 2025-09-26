@@ -1,0 +1,63 @@
+---
+import CategoryBlock from './PostListCategory.astro';
+
+export interface CategoryItem {
+  name: string;
+  slug: string;
+  posts: any[];
+}
+
+export interface Props {
+  title?: string;           // Título da sessão (ex.: "Categorias em destaque")
+  description?: string;     // (opcional) subtítulo/descrição
+  categories: CategoryItem[];  // [{ name, slug, posts }]
+  limitPerCategory?: number;   // qte por categoria (default 4)
+}
+
+const {
+  title = 'Categorias em destaque',
+  description = '',
+  categories = [],
+  limitPerCategory = 4,
+} = Astro.props;
+---
+
+<section class="cats-section">
+  <div class="cats-section__container">
+    <div class="cats-section__head">
+    </div>
+
+    <div class="cats-section__list">
+      {categories.map((cat) => (
+        <CategoryBlock
+          categoryName={cat.name}
+          categorySlug={cat.slug}
+          posts={cat.posts}
+          limit={limitPerCategory}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+
+  .cats-section__container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+
+
+  @media (max-width: 768px) {
+    .cats-section {
+      padding: 0 0.5rem;
+    }
+    
+    .cats-section__title {
+      font-size: 1.5rem;
+    }
+  }
+</style>

@@ -1,0 +1,54 @@
+---
+// Página de teste para verificar banners
+import { getBanners } from '../lib/strapi';
+
+// Buscar todos os banners
+const allBanners = await getBanners();
+const floatBanners = await getBanners('banner-float');
+
+console.log('=== TESTE DE BANNERS ===');
+console.log('Total de banners:', allBanners.length);
+console.log('Banners com local "banner-float":', floatBanners.length);
+
+// Listar todos os banners e seus locais
+console.log('\nTodos os banners:');
+allBanners.forEach((banner, index) => {
+  console.log(`Banner ${index + 1}:`, {
+    id: banner.id,
+    local: banner.local,
+    title: banner.title_banner,
+    hasImage: !!banner.image
+  });
+});
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste de Banners</title>
+</head>
+<body>
+  <h1>Teste de Banners</h1>
+  
+  <h2>Todos os Banners ({allBanners.length})</h2>
+  <pre>{JSON.stringify(allBanners, null, 2)}</pre>
+  
+  <h2>Banners Float ({floatBanners.length})</h2>
+  <pre>{JSON.stringify(floatBanners, null, 2)}</pre>
+  
+  <h2>Verificação</h2>
+  <ul>
+    <li>Total de banners: {allBanners.length}</li>
+    <li>Banners com local "banner-float": {floatBanners.length}</li>
+    <li>Strapi URL: {import.meta.env.PUBLIC_STRAPI_URL}</li>
+  </ul>
+  
+  <h2>Locais dos Banners</h2>
+  <ul>
+    {allBanners.map(banner => (
+      <li>ID: {banner.id} - Local: "{banner.local}" - Título: {banner.title_banner || 'Sem título'}</li>
+    ))}
+  </ul>
+</body>
+</html>

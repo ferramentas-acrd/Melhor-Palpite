@@ -1,0 +1,312 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Elenco - Corinthians Online">
+  <Header />
+  
+  <main class="flex-1">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <!-- Page Header -->
+      <div class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">Elenco Profissional</h1>
+        <p class="text-gray-600">Conheça os jogadores do Corinthians - Temporada 2025</p>
+      </div>
+
+      <!-- Team Filters -->
+      <div class="mb-8">
+        <div class="flex flex-wrap gap-4">
+          <button class="bg-black text-white px-4 py-2 rounded-lg">Masculino</button>
+          <button class="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50">Feminino</button>
+          <button class="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50">Sub-20</button>
+          <button class="border border-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-50">Sub-17</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <!-- Main Content -->
+        <div class="lg:col-span-3">
+          <!-- Position Filters -->
+          <div class="mb-6">
+            <div class="flex flex-wrap gap-2">
+              <button class="bg-gray-100 text-gray-700 px-3 py-1 rounded text-sm">Todos</button>
+              <button class="text-gray-600 px-3 py-1 rounded text-sm hover:bg-gray-100">Goleiros</button>
+              <button class="text-gray-600 px-3 py-1 rounded text-sm hover:bg-gray-100">Defensores</button>
+              <button class="text-gray-600 px-3 py-1 rounded text-sm hover:bg-gray-100">Meio-campistas</button>
+              <button class="text-gray-600 px-3 py-1 rounded text-sm hover:bg-gray-100">Atacantes</button>
+            </div>
+          </div>
+
+          <!-- Goalkeepers -->
+          <div class="mb-8">
+            <h2 class="text-xl font-bold mb-4 border-b border-gray-200 pb-2">Goleiros</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Cássio</div>
+                  <div class="text-sm text-gray-600">#12 • Goleiro</div>
+                  <div class="text-xs text-gray-500 mt-1">34 anos • Brasil</div>
+                </div>
+              </div>
+
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Carlos Miguel</div>
+                  <div class="text-sm text-gray-600">#22 • Goleiro</div>
+                  <div class="text-xs text-gray-500 mt-1">26 anos • Brasil</div>
+                </div>
+              </div>
+
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Matheus Donelli</div>
+                  <div class="text-sm text-gray-600">#40 • Goleiro</div>
+                  <div class="text-xs text-gray-500 mt-1">23 anos • Brasil</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Defenders -->
+          <div class="mb-8">
+            <h2 class="text-xl font-bold mb-4 border-b border-gray-200 pb-2">Defensores</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Fagner</div>
+                  <div class="text-sm text-gray-600">#23 • Lateral-direito</div>
+                  <div class="text-xs text-gray-500 mt-1">35 anos • Brasil</div>
+                </div>
+              </div>
+
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Hugo Souza</div>
+                  <div class="text-sm text-gray-600">#4 • Zagueiro</div>
+                  <div class="text-xs text-gray-500 mt-1">28 anos • Brasil</div>
+                </div>
+              </div>
+
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Cacá</div>
+                  <div class="text-sm text-gray-600">#25 • Zagueiro</div>
+                  <div class="text-xs text-gray-500 mt-1">24 anos • Brasil</div>
+                </div>
+              </div>
+
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Matheus Bidu</div>
+                  <div class="text-sm text-gray-600">#21 • Lateral-esquerdo</div>
+                  <div class="text-xs text-gray-500 mt-1">25 anos • Brasil</div>
+                </div>
+              </div>
+
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Félix Torres</div>
+                  <div class="text-sm text-gray-600">#3 • Zagueiro</div>
+                  <div class="text-xs text-gray-500 mt-1">27 anos • Equador</div>
+                </div>
+              </div>
+
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Matheuzinho</div>
+                  <div class="text-sm text-gray-600">#2 • Lateral-direito</div>
+                  <div class="text-xs text-gray-500 mt-1">24 anos • Brasil</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Midfielders -->
+          <div class="mb-8">
+            <h2 class="text-xl font-bold mb-4 border-b border-gray-200 pb-2">Meio-campistas</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Memphis Depay</div>
+                  <div class="text-sm text-gray-600">#94 • Meia-atacante</div>
+                  <div class="text-xs text-gray-500 mt-1">30 anos • Holanda</div>
+                </div>
+              </div>
+
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Rodrigo Garro</div>
+                  <div class="text-sm text-gray-600">#10 • Meia</div>
+                  <div class="text-xs text-gray-500 mt-1">26 anos • Argentina</div>
+                </div>
+              </div>
+
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Igor Coronado</div>
+                  <div class="text-sm text-gray-600">#77 • Meia</div>
+                  <div class="text-xs text-gray-500 mt-1">32 anos • Brasil</div>
+                </div>
+              </div>
+
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Breno Bidon</div>
+                  <div class="text-sm text-gray-600">#35 • Volante</div>
+                  <div class="text-xs text-gray-500 mt-1">19 anos • Brasil</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Forwards -->
+          <div class="mb-8">
+            <h2 class="text-xl font-bold mb-4 border-b border-gray-200 pb-2">Atacantes</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Yuri Alberto</div>
+                  <div class="text-sm text-gray-600">#9 • Atacante</div>
+                  <div class="text-xs text-gray-500 mt-1">23 anos • Brasil</div>
+                </div>
+              </div>
+
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Romero</div>
+                  <div class="text-sm text-gray-600">#11 • Atacante</div>
+                  <div class="text-xs text-gray-500 mt-1">32 anos • Paraguai</div>
+                </div>
+              </div>
+
+              <div class="bg-white border border-gray-200 rounded-lg p-4">
+                <div class="h-32 bg-gray-200 rounded mb-3 flex items-center justify-center">
+                  <span class="text-gray-500">Foto</span>
+                </div>
+                <div class="text-center">
+                  <div class="font-bold text-lg">Giovane</div>
+                  <div class="text-sm text-gray-600">#19 • Atacante</div>
+                  <div class="text-xs text-gray-500 mt-1">20 anos • Brasil</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:col-span-1">
+          <!-- Technical Staff -->
+          <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+            <h3 class="font-bold text-lg mb-4">Comissão Técnica</h3>
+            <div class="space-y-3">
+              <div>
+                <div class="font-semibold">Ramón Díaz</div>
+                <div class="text-sm text-gray-600">Técnico</div>
+              </div>
+              <div>
+                <div class="font-semibold">Emiliano Díaz</div>
+                <div class="text-sm text-gray-600">Auxiliar Técnico</div>
+              </div>
+              <div>
+                <div class="font-semibold">Fabio Maichuk</div>
+                <div class="text-sm text-gray-600">Preparador Físico</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Team Stats -->
+          <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+            <h3 class="font-bold text-lg mb-4">Estatísticas do Elenco</h3>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span class="text-sm">Jogadores:</span>
+                <span class="font-semibold">28</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-sm">Idade média:</span>
+                <span class="font-semibold">26.5 anos</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-sm">Brasileiros:</span>
+                <span class="font-semibold">22</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-sm">Estrangeiros:</span>
+                <span class="font-semibold">6</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Player Highlights -->
+          <div class="bg-black text-white rounded-lg p-6 mb-6">
+            <h3 class="font-bold text-lg mb-4">Destaque da Temporada</h3>
+            <div class="text-center">
+              <div class="h-20 w-20 bg-gray-600 rounded-full mx-auto mb-3 flex items-center justify-center">
+                <span class="text-sm">Foto</span>
+              </div>
+              <div class="font-bold">Memphis Depay</div>
+              <div class="text-sm text-gray-300">12 gols • 8 assistências</div>
+              <div class="text-xs text-gray-400 mt-2">Em 20 jogos</div>
+            </div>
+          </div>
+
+          <!-- Advertisement -->
+          <div class="bg-gray-100 rounded-lg p-6 text-center">
+            <div class="h-48 flex items-center justify-center">
+              <span class="text-gray-500">Espaço Publicitário</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

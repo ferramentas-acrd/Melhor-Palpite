@@ -1,0 +1,174 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Colunas - Corinthians Online">
+  <Header />
+  
+  <main class="flex-1">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <div class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">Colunas</h1>
+        <p class="text-gray-600">Análises e opiniões dos nossos colunistas especializados</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <!-- Featured Column -->
+          <div class="mb-8">
+            <article class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div class="h-64 bg-gray-200 flex items-center justify-center">
+                <span class="text-gray-500">Imagem do Artigo</span>
+              </div>
+              <div class="p-6">
+                <div class="flex items-center mb-4">
+                  <div class="w-12 h-12 bg-gray-300 rounded-full mr-4 flex items-center justify-center">
+                    <span class="text-xs">Foto</span>
+                  </div>
+                  <div>
+                    <div class="font-semibold">João Silva</div>
+                    <div class="text-sm text-gray-500">Colunista • Há 2 horas</div>
+                  </div>
+                </div>
+                <h2 class="text-2xl font-bold mb-4">
+                  A importância tática do Memphis: Como o holandês revolucionou o ataque alvinegro
+                </h2>
+                <p class="text-gray-600 mb-4">
+                  Desde a chegada do atacante holandês, o Corinthians ganhou uma nova dimensão ofensiva. 
+                  Memphis não apenas marca gols, mas também cria jogadas e lidera o time em campo. 
+                  Análise completa de como sua presença mudou a dinâmica da equipe...
+                </p>
+                <a href="#" class="text-black font-semibold hover:underline">Ler coluna completa →</a>
+              </div>
+            </article>
+          </div>
+
+          <!-- Recent Columns -->
+          <div class="space-y-6">
+            <article class="bg-white border border-gray-200 rounded-lg p-6">
+              <div class="flex items-start space-x-4">
+                <div class="w-16 h-16 bg-gray-300 rounded-full flex-shrink-0 flex items-center justify-center">
+                  <span class="text-xs">Foto</span>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center mb-2">
+                    <div class="font-semibold mr-2">Maria Santos</div>
+                    <div class="text-sm text-gray-500">• Há 1 dia</div>
+                  </div>
+                  <h3 class="font-bold text-lg mb-2">
+                    Corinthians Feminino: O caminho para a Libertadores 2025
+                  </h3>
+                  <p class="text-gray-600 text-sm mb-3">
+                    Com reforços pontuais e manutenção da base, time feminino se prepara para mais uma campanha continental...
+                  </p>
+                  <a href="#" class="text-black font-semibold text-sm hover:underline">Ler mais →</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="bg-white border border-gray-200 rounded-lg p-6">
+              <div class="flex items-start space-x-4">
+                <div class="w-16 h-16 bg-gray-300 rounded-full flex-shrink-0 flex items-center justify-center">
+                  <span class="text-xs">Foto</span>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center mb-2">
+                    <div class="font-semibold mr-2">Pedro Costa</div>
+                    <div class="text-sm text-gray-500">• Há 2 dias</div>
+                  </div>
+                  <h3 class="font-bold text-lg mb-2">
+                    Mercado da bola: As posições que o Corinthians precisa reforçar
+                  </h3>
+                  <p class="text-gray-600 text-sm mb-3">
+                    Análise do plantel atual e das necessidades para a próxima temporada. Onde investir?
+                  </p>
+                  <a href="#" class="text-black font-semibold text-sm hover:underline">Ler mais →</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="bg-white border border-gray-200 rounded-lg p-6">
+              <div class="flex items-start space-x-4">
+                <div class="w-16 h-16 bg-gray-300 rounded-full flex-shrink-0 flex items-center justify-center">
+                  <span class="text-xs">Foto</span>
+                </div>
+                <div class="flex-1">
+                  <div class="flex items-center mb-2">
+                    <div class="font-semibold mr-2">Ana Silva</div>
+                    <div class="text-sm text-gray-500">• Há 3 dias</div>
+                  </div>
+                  <h3 class="font-bold text-lg mb-2">
+                    Arena Corinthians: 10 anos de história e emoção
+                  </h3>
+                  <p class="text-gray-600 text-sm mb-3">
+                    Relembre os grandes momentos vividos na casa do Corinthians desde sua inauguração...
+                  </p>
+                  <a href="#" class="text-black font-semibold text-sm hover:underline">Ler mais →</a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="lg:col-span-1">
+          <!-- Columnists -->
+          <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+            <h3 class="font-bold text-lg mb-4">Nossos Colunistas</h3>
+            <div class="space-y-4">
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                  <span class="text-xs">JS</span>
+                </div>
+                <div>
+                  <div class="font-semibold">João Silva</div>
+                  <div class="text-sm text-gray-600">Especialista em táticas</div>
+                </div>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                  <span class="text-xs">MS</span>
+                </div>
+                <div>
+                  <div class="font-semibold">Maria Santos</div>
+                  <div class="text-sm text-gray-600">Futebol feminino</div>
+                </div>
+              </div>
+              <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                  <span class="text-xs">PC</span>
+                </div>
+                <div>
+                  <div class="font-semibold">Pedro Costa</div>
+                  <div class="text-sm text-gray-600">Mercado e transferências</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Most Read Columns -->
+          <div class="bg-white border border-gray-200 rounded-lg p-6">
+            <h3 class="font-bold text-lg mb-4">Colunas Mais Lidas</h3>
+            <div class="space-y-3">
+              <div>
+                <p class="text-sm font-medium">A verdade sobre a saída do Cássio</p>
+                <p class="text-xs text-gray-500">2.1k leituras</p>
+              </div>
+              <div>
+                <p class="text-sm font-medium">Por que o Corinthians deve apostar na base</p>
+                <p class="text-xs text-gray-500">1.8k leituras</p>
+              </div>
+              <div>
+                <p class="text-sm font-medium">O impacto da torcida na Arena</p>
+                <p class="text-xs text-gray-500">1.5k leituras</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

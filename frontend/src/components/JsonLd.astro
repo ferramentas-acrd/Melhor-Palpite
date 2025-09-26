@@ -1,0 +1,85 @@
+---
+export interface Props {
+  type: 'Article' | 'WebPage' | 'Organization' | 'BreadcrumbList';
+  data: any;
+}
+
+const { type, data } = Astro.props;
+
+// Função para gerar JSON-LD baseado no tipo
+function generateJsonLd(type: string, data: any) {
+  const baseContext = {
+    "@context": "https://schema.org"
+  };
+
+  switch (type) {
+    case 'Article':
+      return {
+        ...baseContext,
+        "@type": "Article",
+        "headline": data.title,
+        "description": data.description,
+        "image": data.image,
+        "author": {
+          "@type": "Person",
+          "name": data.author?.name || "Redação"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": data.siteName || "Portal de Notícias",
+          "logo": {
+            "@type": "ImageObject",
+            "url": data.siteLogo || "/logo.png"
+          }
+        },
+        "datePublished": data.datePublished,
+        "dateModified": data.dateModified || data.datePublished,
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": data.url
+        }
+      };
+
+    case 'WebPage':
+      return {
+        ...baseContext,
+        "@type": "WebPage",
+        "name": data.title,
+        "description": data.description,
+        "url": data.url,
+        "inLanguage": "pt-BR"
+      };
+
+    case 'Organization':
+      return {
+        ...baseContext,
+        "@type": "Organization",
+        "name": data.name,
+        "url": data.url,
+        "logo": data.logo,
+        "sameAs": data.socialProfiles || []
+      };
+
+    case 'BreadcrumbList':
+      return {
+        ...baseContext,
+        "@type": "BreadcrumbList",
+        "itemListElement": data.items.map((item: any, index: number) => ({
+          "@type": "ListItem",
+          "position": index + 1,
+          "name": item.name,
+          "item": item.url
+        }))
+      };
+
+    default:
+      return null;
+  }
+}
+
+const jsonLdData = generateJsonLd(type, data);
+---
+
+{jsonLdData && (
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLdData)} />
+)}

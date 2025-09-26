@@ -1,0 +1,31 @@
+---
+import { getCustomHTMLByTitle, decodeCustomHTML, clearCustomHTMLCache } from '../lib/strapi';
+
+export interface Props {
+  title: string;
+  forceRefresh?: boolean;
+}
+
+const { title, forceRefresh = false } = Astro.props;
+
+if (forceRefresh) {
+  clearCustomHTMLCache();
+}
+
+const customHTML = await getCustomHTMLByTitle(title);
+
+function processHTML(htmlString: string): string {
+  if (!htmlString) return '';
+  let processedHTML = decodeCustomHTML(htmlString);
+  processedHTML = processedHTML.replace(/<!--[\s\S]*?-->/g, '');
+  return processedHTML.trim();
+}
+
+const bodyHTML = customHTML?.body ? processHTML(customHTML.body) : '';
+---
+
+{bodyHTML && (
+  <div class="custom-html-body" data-html-title={title}>
+    <Fragment set:html={bodyHTML} />
+  </div>
+)}

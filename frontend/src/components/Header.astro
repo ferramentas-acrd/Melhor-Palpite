@@ -1,0 +1,132 @@
+---
+// Astro component frontmatter (server-side)
+---
+
+<!-- Top Bar -->
+<div class="bg-black text-white text-sm py-2 px-4">
+  <div class="max-w-7xl mx-auto flex justify-between items-center">
+    <div class="flex items-center space-x-4">
+      <span>🏆 Portal Oficial da Fiel</span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <span>Terça-feira, 24 de Setembro de 2025</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- Main Header -->
+<header class="bg-white border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="flex items-center justify-between py-4">
+      <!-- Logo -->
+      <a href="/" class="flex items-center space-x-3">
+        <div class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl">
+          SC
+        </div>
+        <div>
+          <h1 class="text-2xl font-bold text-gray-900">CORINTHIANS <span class="text-purple-600">ONLINE</span></h1>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center space-x-8">
+        <a href="/noticias" class="text-gray-900 hover:text-black transition-colors font-medium">
+          Notícias
+        </a>
+        <a href="/jogos" class="text-gray-900 hover:text-black transition-colors font-medium">
+          Jogos
+        </a>
+        <a href="/elenco" class="text-gray-900 hover:text-black transition-colors font-medium">
+          Elenco
+        </a>
+        <a href="/videos" class="text-gray-900 hover:text-black transition-colors font-medium">
+          Vídeos
+        </a>
+        <a href="/forum" class="text-gray-900 hover:text-black transition-colors font-medium">
+          Fórum
+        </a>
+        <a href="/colunas" class="text-gray-900 hover:text-black transition-colors font-medium">
+          Colunas
+        </a>
+      </nav>
+
+      <!-- Search -->
+      <div class="flex items-center space-x-4">
+        <div class="relative hidden md:block">
+          <input 
+            type="search" 
+            placeholder="Buscar..."
+            class="border border-gray-300 px-4 py-2 rounded-lg pr-10 focus:outline-none focus:ring-2 focus:ring-black"
+          />
+          <button class="absolute right-3 top-1/2 transform -translate-y-1/2">
+            🔍
+          </button>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button 
+        class="md:hidden p-2"
+        id="mobile-menu-button"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width={2} d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-200 hidden">
+    <nav class="px-4 py-4 space-y-4">
+      <a href="/noticias" class="block text-gray-900 hover:text-black transition-colors">
+        Notícias
+      </a>
+      <a href="/jogos" class="block text-gray-900 hover:text-black transition-colors">
+        Jogos
+      </a>
+      <a href="/elenco" class="block text-gray-900 hover:text-black transition-colors">
+        Elenco
+      </a>
+      <a href="/videos" class="block text-gray-900 hover:text-black transition-colors">
+        Vídeos
+      </a>
+      <a href="/forum" class="block text-gray-900 hover:text-black transition-colors">
+        Fórum
+      </a>
+      <a href="/colunas" class="block text-gray-900 hover:text-black transition-colors">
+        Colunas
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Client-side script for mobile menu toggle
+  document.addEventListener('DOMContentLoaded', function() {
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    
+    if (menuButton && mobileMenu) {
+      menuButton.addEventListener('click', function() {
+        mobileMenu.classList.toggle('hidden');
+      });
+    }
+  });
+</script>
+
+<style>
+  @keyframes scroll {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+  
+  .animate-scroll {
+    animation: scroll 20s linear infinite;
+  }
+</style>

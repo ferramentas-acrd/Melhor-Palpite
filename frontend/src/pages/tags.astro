@@ -1,0 +1,38 @@
+---
+export const prerender = false;
+
+import Layout from '../layouts/Layout.astro';
+import { getTags } from '../lib/strapi';
+import { checkTrailingSlashRedirect } from '../lib/utils';
+
+// Verificar se a URL atual termina com slash, se não, redirecionar
+const redirectResponse = checkTrailingSlashRedirect(Astro);
+if (redirectResponse) {
+  return redirectResponse;
+}
+
+const tags = await getTags();
+---
+
+<Layout title="Tags">
+  <div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold text-gray-900 mb-8">Tags</h1>
+    
+    {tags.length > 0 ? (
+      <div class="flex flex-wrap gap-4">
+        {tags.map((tag) => (
+          <a 
+            href={`/tag/${tag.slug}`}
+            class="inline-flex items-center px-4 py-2 bg-gray-100 text-gray-700 rounded-full hover:bg-gray-200 transition-colors"
+          >
+            <span class="font-medium">{tag.name}</span>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12">
+        <p class="text-gray-500 text-lg">Nenhuma tag encontrada.</p>
+      </div>
+    )}
+  </div>
+</Layout>

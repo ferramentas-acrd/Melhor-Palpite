@@ -1,0 +1,62 @@
+{
+  "kind": "collectionType",
+  "collectionName": "home_widgets",
+  "info": {
+    "singularName": "home-widget",
+    "pluralName": "home-widgets",
+    "displayName": "Home Widget",
+    "description": "Widgets personalizáveis para a página inicial"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "widget_type": {
+      "type": "enumeration",
+      "enum": [
+        "latest_posts",
+        "featured_posts",
+        "category_posts",
+        "custom_html",
+        "banner_slider",
+        "video_highlight",
+        "social_feed"
+      ],
+      "required": true
+    },
+    "position": {
+      "type": "enumeration",
+      "enum": [
+        "hero",
+        "sidebar",
+        "content_top",
+        "content_bottom",
+        "footer_top"
+      ],
+      "required": true
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    },
+    "configuration": {
+      "type": "json",
+      "required": false
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "css_classes": {
+      "type": "string"
+    },
+    "custom_html": {
+      "type": "text"
+    }
+  }
+}

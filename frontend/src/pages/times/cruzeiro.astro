@@ -1,0 +1,145 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+---
+
+<Layout title="Cruzeiro - Diário do Futebol">
+  <Header />
+  
+  <main class="flex-1">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <!-- Team Header -->
+      <div class="bg-blue-600 text-white rounded-lg p-6 mb-8">
+        <div class="flex items-center space-x-6">
+          <div class="w-20 h-20 bg-white rounded-full flex items-center justify-center">
+            <span class="text-blue-600 font-bold text-2xl">C</span>
+          </div>
+          <div>
+            <h1 class="text-3xl font-bold">Cruzeiro Esporte Clube</h1>
+            <p class="text-blue-100">Fundado em 1921 • Belo Horizonte, MG</p>
+            <p class="text-blue-100">Estádio: Mineirão (62.547 lugares)</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <!-- Latest News -->
+          <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+            <h2 class="text-xl font-bold mb-4">Últimas Notícias do Cruzeiro</h2>
+            <div class="space-y-4">
+              <article class="border-b border-gray-200 pb-4">
+                <h3 class="font-bold text-lg mb-2 hover:text-blue-600 cursor-pointer">
+                  Cruzeiro anuncia reforços para 2025
+                </h3>
+                <p class="text-gray-600 text-sm mb-2">
+                  Raposa confirma contratação de três jogadores para a próxima temporada, 
+                  incluindo um meia argentino.
+                </p>
+                <div class="text-xs text-gray-500">
+                  João Santos • Há 2 horas
+                </div>
+              </article>
+              
+              <article class="border-b border-gray-200 pb-4">
+                <h3 class="font-bold text-lg mb-2 hover:text-blue-600 cursor-pointer">
+                  Preparação para o Brasileirão 2025
+                </h3>
+                <p class="text-gray-600 text-sm mb-2">
+                  Elenco celeste se reapresenta na Toca da Raposa II para início dos treinos.
+                </p>
+                <div class="text-xs text-gray-500">
+                  Maria Silva • Há 4 horas
+                </div>
+              </article>
+              
+              <article>
+                <h3 class="font-bold text-lg mb-2 hover:text-blue-600 cursor-pointer">
+                  Torcida organiza festa para recepção dos jogadores
+                </h3>
+                <p class="text-gray-600 text-sm mb-2">
+                  Máfia Azul prepara grande evento no aeroporto para chegada dos reforços.
+                </p>
+                <div class="text-xs text-gray-500">
+                  Pedro Costa • Há 6 horas
+                </div>
+              </article>
+            </div>
+          </div>
+          
+          <!-- Team Stats -->
+          <div class="bg-white border border-gray-200 rounded-lg p-6">
+            <h2 class="text-xl font-bold mb-4">Estatísticas da Temporada</h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div class="text-center p-4 bg-gray-50 rounded">
+                <div class="text-2xl font-bold text-blue-600">8º</div>
+                <div class="text-sm text-gray-600">Posição</div>
+              </div>
+              <div class="text-center p-4 bg-gray-50 rounded">
+                <div class="text-2xl font-bold">45</div>
+                <div class="text-sm text-gray-600">Pontos</div>
+              </div>
+              <div class="text-center p-4 bg-gray-50 rounded">
+                <div class="text-2xl font-bold text-green-600">13</div>
+                <div class="text-sm text-gray-600">Vitórias</div>
+              </div>
+              <div class="text-center p-4 bg-gray-50 rounded">
+                <div class="text-2xl font-bold text-yellow-500">6</div>
+                <div class="text-sm text-gray-600">Empates</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div>
+          <!-- Next Match -->
+          <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+            <h3 class="font-bold text-lg mb-4">Próximo Jogo</h3>
+            <div class="text-center">
+              <div class="text-sm text-gray-600 mb-2">Brasileirão • 28/09</div>
+              <div class="font-bold text-lg mb-2">Cruzeiro vs Atlético-MG</div>
+              <div class="text-sm text-gray-600 mb-4">Mineirão • 19:30</div>
+              <button class="bg-blue-600 text-white px-4 py-2 rounded text-sm hover:bg-blue-700">
+                Ver Palpites
+              </button>
+            </div>
+          </div>
+          
+          <!-- Recent Results -->
+          <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+            <h3 class="font-bold text-lg mb-4">Últimos Resultados</h3>
+            <div class="space-y-3">
+              <div class="flex items-center justify-between p-2 bg-green-50 rounded">
+                <span class="text-sm">Cruzeiro 2-1 Vasco</span>
+                <span class="text-green-600 font-bold text-xs">V</span>
+              </div>
+              <div class="flex items-center justify-between p-2 bg-red-50 rounded">
+                <span class="text-sm">Flamengo 3-0 Cruzeiro</span>
+                <span class="text-red-600 font-bold text-xs">D</span>
+              </div>
+              <div class="flex items-center justify-between p-2 bg-yellow-50 rounded">
+                <span class="text-sm">Cruzeiro 1-1 São Paulo</span>
+                <span class="text-yellow-600 font-bold text-xs">E</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Top Scorer -->
+          <div class="bg-blue-600 text-white rounded-lg p-6">
+            <h3 class="font-bold text-lg mb-4">Artilheiro</h3>
+            <div class="text-center">
+              <div class="w-12 h-12 bg-white rounded-full mx-auto mb-2 flex items-center justify-center">
+                <span class="text-blue-600 font-bold">M</span>
+              </div>
+              <div class="font-bold">Matheus Pereira</div>
+              <div class="text-blue-100 text-sm">15 gols</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

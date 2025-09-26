@@ -1,0 +1,114 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Vídeos - Corinthians Online">
+  <Header />
+  
+  <main class="flex-1">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <div class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">Vídeos</h1>
+        <p class="text-gray-600">Assista aos melhores momentos do Corinthians</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <!-- Featured Video -->
+          <div class="mb-8">
+            <div class="bg-black rounded-lg overflow-hidden">
+              <div class="h-80 bg-gray-800 flex items-center justify-center">
+                <div class="text-white text-center">
+                  <div class="text-6xl mb-4">▶</div>
+                  <div class="text-xl font-bold">Melhores Momentos: Corinthians 3x1 Atlético-GO</div>
+                </div>
+              </div>
+              <div class="p-6 text-white">
+                <h2 class="text-2xl font-bold mb-2">Goleada na Arena! Corinthians vence por 3x1</h2>
+                <p class="text-gray-300 mb-4">Confira os melhores momentos da vitória alvinegra no Brasileirão</p>
+                <div class="text-sm">502k visualizações • Há 3 dias</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Video Grid -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div class="h-48 bg-gray-200 flex items-center justify-center">
+                <span class="text-4xl text-gray-500">▶</span>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold mb-2">Entrevista: Memphis Depay fala sobre adaptação</h3>
+                <p class="text-sm text-gray-600 mb-2">Atacante holandês comenta sobre primeiros meses no Brasil</p>
+                <div class="text-xs text-gray-500">125k views • Há 1 dia</div>
+              </div>
+            </div>
+
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div class="h-48 bg-gray-200 flex items-center justify-center">
+                <span class="text-4xl text-gray-500">▶</span>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold mb-2">Treino no CT: Preparação para o clássico</h3>
+                <p class="text-sm text-gray-600 mb-2">Elenco se prepara para enfrentar o Santos no domingo</p>
+                <div class="text-xs text-gray-500">87k views • Há 2 dias</div>
+              </div>
+            </div>
+
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div class="h-48 bg-gray-200 flex items-center justify-center">
+                <span class="text-4xl text-gray-500">▶</span>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold mb-2">Bastidores: Chegada do novo reforço</h3>
+                <p class="text-sm text-gray-600 mb-2">Lateral-esquerdo uruguaio conhece as instalações do clube</p>
+                <div class="text-xs text-gray-500">94k views • Há 4 dias</div>
+              </div>
+            </div>
+
+            <div class="bg-white border border-gray-200 rounded-lg overflow-hidden">
+              <div class="h-48 bg-gray-200 flex items-center justify-center">
+                <span class="text-4xl text-gray-500">▶</span>
+              </div>
+              <div class="p-4">
+                <h3 class="font-bold mb-2">Gols da semana na base</h3>
+                <p class="text-sm text-gray-600 mb-2">Confira os melhores gols das categorias de base</p>
+                <div class="text-xs text-gray-500">23k views • Há 5 dias</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-1">
+          <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+            <h3 class="font-bold text-lg mb-4">Mais Assistidos</h3>
+            <div class="space-y-4">
+              <div class="flex space-x-3">
+                <div class="w-20 h-14 bg-gray-200 rounded flex items-center justify-center flex-shrink-0">
+                  <span class="text-xs">▶</span>
+                </div>
+                <div>
+                  <p class="text-sm font-medium">Memorial Day: Homenagem aos ídolos</p>
+                  <p class="text-xs text-gray-500">1.2M views</p>
+                </div>
+              </div>
+              <div class="flex space-x-3">
+                <div class="w-20 h-14 bg-gray-200 rounded flex items-center justify-center flex-shrink-0">
+                  <span class="text-xs">▶</span>
+                </div>
+                <div>
+                  <p class="text-sm font-medium">Derby épico: Corinthians 4x0 Palmeiras</p>
+                  <p class="text-xs text-gray-500">890k views</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

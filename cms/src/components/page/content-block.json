@@ -1,0 +1,45 @@
+{
+  "collectionName": "components_page_content_blocks",
+  "info": {
+    "displayName": "Content Block",
+    "description": "Bloco de conteúdo modular"
+  },
+  "options": {},
+  "attributes": {
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "text",
+        "image",
+        "video",
+        "gallery",
+        "quote",
+        "list",
+        "html"
+      ],
+      "required": true
+    },
+    "title": {
+      "type": "string"
+    },
+    "content": {
+      "type": "richtext"
+    },
+    "media": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": ["images", "videos", "files"]
+    },
+    "html_content": {
+      "type": "text"
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    },
+    "css_classes": {
+      "type": "string"
+    }
+  }
+}

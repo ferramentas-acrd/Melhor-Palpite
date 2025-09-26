@@ -1,0 +1,114 @@
+{
+  "kind": "collectionType",
+  "collectionName": "betting_predictions",
+  "info": {
+    "singularName": "betting-prediction",
+    "pluralName": "betting-predictions",
+    "displayName": "Palpite de Apostas",
+    "description": "Palpites e prognósticos de apostas"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "match": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "prediction": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200
+    },
+    "predictionType": {
+      "type": "enumeration",
+      "enum": [
+        "resultado",
+        "gols",
+        "handicap",
+        "ambas_marcam",
+        "cartoes",
+        "escanteios",
+        "primeiro_gol",
+        "intervalo"
+      ],
+      "default": "resultado"
+    },
+    "odds": {
+      "type": "decimal",
+      "min": 1.01,
+      "max": 100
+    },
+    "confidence": {
+      "type": "enumeration",
+      "enum": ["baixa", "media", "alta"],
+      "default": "media"
+    },
+    "analysis": {
+      "type": "blocks",
+      "required": true
+    },
+    "matchDate": {
+      "type": "datetime",
+      "required": true
+    },
+    "sport": {
+      "type": "enumeration",
+      "enum": ["futebol", "basquete", "volei", "tenis", "outros"],
+      "default": "futebol"
+    },
+    "competition": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "recommendedHouse": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::betting-house.betting-house"
+    },
+    "result": {
+      "type": "enumeration",
+      "enum": ["pendente", "acerto", "erro"],
+      "default": "pendente"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tag.tag",
+      "mappedBy": "betting_predictions"
+    },
+    "authors": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::author.author",
+      "mappedBy": "betting_predictions"
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

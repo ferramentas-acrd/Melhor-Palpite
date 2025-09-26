@@ -1,0 +1,91 @@
+{
+  "kind": "collectionType",
+  "collectionName": "banners",
+  "info": {
+    "singularName": "banner",
+    "pluralName": "banners",
+    "displayName": "Banner Publicitário",
+    "description": "Banners e anúncios para o site"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 200
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": ["images"]
+    },
+    "link": {
+      "type": "string",
+      "required": false
+    },
+    "popunderUrl": {
+      "type": "string",
+      "required": false
+    },
+    "ctaText": {
+      "type": "string",
+      "maxLength": 50
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 300
+    },
+    "position": {
+      "type": "enumeration",
+      "enum": [
+        "header",
+        "sidebar",
+        "footer",
+        "between_posts",
+        "popup",
+        "floating"
+      ],
+      "default": "sidebar"
+    },
+    "priority": {
+      "type": "integer",
+      "default": 0
+    },
+    "startDate": {
+      "type": "datetime"
+    },
+    "endDate": {
+      "type": "datetime"
+    },
+    "impressions": {
+      "type": "integer",
+      "default": 0
+    },
+    "clicks": {
+      "type": "integer",
+      "default": 0
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "targetBlank": {
+      "type": "boolean",
+      "default": true
+    },
+    "bettingHouse": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::betting-house.betting-house"
+    }
+  }
+}

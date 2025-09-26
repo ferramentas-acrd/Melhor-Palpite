@@ -1,0 +1,78 @@
+---
+// Teste simples de API de banners
+const STRAPI_URL = import.meta.env.PUBLIC_STRAPI_URL || 'http://localhost:1337';
+
+// Fazer requisição direta para verificar
+let response;
+let data;
+let error;
+
+try {
+  const url = `${STRAPI_URL}/api/banners?populate=image&filters[local][$eq]=banner-float`;
+  console.log('Fazendo requisição para:', url);
+  
+  response = await fetch(url);
+  data = await response.json();
+  
+  console.log('Resposta da API:', data);
+  console.log('Banners encontrados:', data.data?.length || 0);
+} catch (e) {
+  error = e;
+  console.error('Erro na requisição:', e);
+}
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Teste Direto API Banners</title>
+</head>
+<body>
+  <h1>Teste Direto da API de Banners</h1>
+  
+  <h2>URL da API</h2>
+  <p>{STRAPI_URL}/api/banners?populate=image&filters[local][$eq]=banner-float</p>
+  
+  <h2>Status da Resposta</h2>
+  <p>Status: {response?.status || 'Erro'}</p>
+  <p>Status Text: {response?.statusText || 'Erro'}</p>
+  
+  {error && (
+    <div style="background: #fee; padding: 10px; margin: 10px 0;">
+      <h3>Erro:</h3>
+      <pre>{error.toString()}</pre>
+    </div>
+  )}
+  
+  <h2>Dados Recebidos</h2>
+  <pre style="background: #f5f5f5; padding: 10px; overflow: auto;">
+{JSON.stringify(data, null, 2)}
+  </pre>
+  
+  <h2>Banners Encontrados</h2>
+  {data?.data && data.data.length > 0 ? (
+    <ul>
+      {data.data.map((banner: any) => (
+        <li>
+          ID: {banner.id} - 
+          Local: "{banner.attributes?.local || banner.local}" - 
+          Título: {banner.attributes?.title_banner || banner.title_banner || 'Sem título'}
+        </li>
+      ))}
+    </ul>
+  ) : (
+    <p>Nenhum banner encontrado com local="banner-float"</p>
+  )}
+  
+  <h2>Verificar Estrutura</h2>
+  {data?.data && data.data[0] && (
+    <div>
+      <h3>Primeiro Banner - Estrutura:</h3>
+      <pre style="background: #f5f5f5; padding: 10px; overflow: auto;">
+{JSON.stringify(data.data[0], null, 2)}
+      </pre>
+    </div>
+  )}
+</body>
+</html>

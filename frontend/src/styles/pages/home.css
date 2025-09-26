@@ -1,0 +1,79 @@
+/* Home Page Styles */
+
+.home {
+  /* Estilos específicos da homepage */
+}
+
+.online-esportes {
+  padding: 4rem 0;
+  text-align: center;
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+  color: white;
+}
+
+.casa-esportes-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.online-esportes-title {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.online-esportes-text {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.online-esportes-btn {
+  display: inline-block;
+  background-color: white;
+  color: #dc2626;
+  padding: 0.75rem 2rem;
+  border-radius: 0.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.online-esportes-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.categories-section {
+  background-color: #f9fafb;
+}
+
+.category-block {
+  margin-bottom: 3rem;
+}
+
+.ver-todos-btn {
+  color: #dc2626;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s ease;
+}
+
+.ver-todos-btn:hover {
+  color: #991b1b;
+}
+
+@media (max-width: 768px) {
+  .online-esportes-title {
+    font-size: 2rem;
+  }
+  
+  .online-esportes-text {
+    font-size: 1rem;
+  }
+}

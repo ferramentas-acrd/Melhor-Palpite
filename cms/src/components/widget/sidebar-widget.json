@@ -1,0 +1,37 @@
+{
+  "collectionName": "components_widget_sidebar_widgets",
+  "info": {
+    "displayName": "Sidebar Widget",
+    "description": "Widget para sidebar"
+  },
+  "options": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "latest_posts",
+        "popular_posts",
+        "categories",
+        "tags",
+        "custom_html",
+        "social_media"
+      ],
+      "required": true
+    },
+    "configuration": {
+      "type": "json"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}

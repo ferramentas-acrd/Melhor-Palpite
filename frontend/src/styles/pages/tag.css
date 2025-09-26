@@ -1,0 +1,91 @@
+/* Tag Page Styles */
+
+.tag-page {
+  /* Estilos específicos da página de tag */
+}
+
+.tag-header {
+  background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+  color: white;
+  padding: 3rem 0;
+  text-align: center;
+}
+
+.tag-header h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.tag-description {
+  font-size: 1.25rem;
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.tag-posts {
+  padding: 3rem 0;
+  background-color: #f9fafb;
+}
+
+.posts-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.tag-badge {
+  display: inline-block;
+  background-color: #6b7280;
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+.pagination a {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  color: #374151;
+  transition: all 0.3s ease;
+}
+
+.pagination a:hover {
+  background-color: #6b7280;
+  color: white;
+  border-color: #6b7280;
+}
+
+.pagination .active {
+  background-color: #6b7280;
+  color: white;
+  border-color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  .tag-header h1 {
+    font-size: 2rem;
+  }
+  
+  .tag-description {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,302 @@
+---
+export const prerender = false;
+
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getHomePagePostsOptimized, convertToLegacyFormat } from '../lib/strapi-optimized';
+
+let posts = [];
+// Temporarily disabled Strapi calls until CMS is properly configured
+// try {
+//   const strapiPosts = await getHomePagePostsOptimized(12);
+//   posts = convertToLegacyFormat(strapiPosts);
+// } catch (error) {
+//   console.error('Error fetching posts:', error);
+//   // Use placeholder data when Strapi is not available
+//   posts = [];
+// }
+
+// Placeholder data for when Strapi doesn't have content yet
+const placeholderPosts = [
+  {
+    title: "Real Madrid sofre sua pior derrota em casa nos últimos 10 anos",
+    excerpt: "Time merengue é goleado pelo Barcelona por 4x0 no Santiago Bernabéu e vê rival disparar na liderança do campeonato espanhol.",
+    author: "Pedro Costa",
+    category: { name: "Champions League" },
+    slug: "real-madrid-derrota-barcelona",
+    date: new Date().toISOString()
+  },
+  {
+    title: "Palmeiras anuncia novo técnico português",
+    excerpt: "Direção alviverde confirma contratação de treinador europeu para a temporada 2025.",
+    author: "Ana Santos",
+    category: { name: "Brasileirão" },
+    slug: "palmeiras-novo-tecnico",
+    date: new Date().toISOString()
+  },
+  {
+    title: "Liverpool vence clássico e assume liderança",
+    excerpt: "Reds superam Manchester City em Anfield e voltam ao topo da Premier League.",
+    author: "Carlos Lima",
+    category: { name: "Premier League" },
+    slug: "liverpool-vence-city",
+    date: new Date().toISOString()
+  },
+  {
+    title: "Brasil convoca para eliminatórias",
+    excerpt: "Técnico da seleção divulga lista com 23 jogadores para próximos compromissos.",
+    author: "Roberto Silva",
+    category: { name: "Seleção" },
+    slug: "brasil-convocacao",
+    date: new Date().toISOString()
+  }
+];
+
+// Use Strapi data if available, otherwise use placeholders
+const finalPosts = posts.length > 0 ? posts : placeholderPosts;
+
+// Get featured post from Strapi or use fallback
+const featuredPost = finalPosts.find(post => post.featured) || {
+  title: "Flamengo vence Corinthians e dispara na liderança do Brasileirão",
+  excerpt: "Com gols de Pedro e Arrascaeta, time carioca abre 5 pontos de vantagem e encaminha título. Análise completa do jogo e as melhores apostas para a próxima rodada.",
+  author: "João Silva",
+  readTime: "5",
+  slug: "flamengo-vence-corinthians"
+};
+
+const latestPosts = finalPosts.slice(0, 4);
+---
+
+<Layout title="Corinthians Online - Portal Oficial da Fiel Torcida">
+  <Header />
+  
+  <main class="flex-1">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        
+        <!-- Main Content Area -->
+        <div class="lg:col-span-3">
+          <!-- Featured News -->
+          <div class="mb-8">
+            <div class="relative bg-gray-900 rounded-lg overflow-hidden">
+              <div class="h-96 bg-gradient-to-r from-black to-gray-800 flex items-center">
+                <div class="p-8 text-white">
+                  <span class="bg-red-600 text-white px-3 py-1 rounded text-sm font-bold mb-4 inline-block">
+                    DESTAQUE
+                  </span>
+                  <h1 class="text-4xl font-bold mb-4">
+                    Corinthians anuncia reforço para temporada 2025
+                  </h1>
+                  <p class="text-xl text-gray-300 mb-6">
+                    Clube oficializa contratação de meio-campista argentino por 4 anos. 
+                    Jogador já está em São Paulo para exames médicos.
+                  </p>
+                  <div class="flex items-center text-sm">
+                    <span class="mr-4">Por João Silva</span>
+                    <span>Há 2 horas</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Breaking News -->
+          <div class="bg-red-600 text-white p-4 rounded-lg mb-8">
+            <div class="flex items-center">
+              <span class="bg-white text-red-600 px-3 py-1 rounded font-bold text-sm mr-4">
+                URGENTE
+              </span>
+              <div class="flex-1">
+                <p class="font-semibold">
+                  Presidente do Corinthians convoca assembleia extraordinária para próxima sexta-feira
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Latest News Grid -->
+          <div class="mb-8">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-3xl font-bold">Últimas Notícias</h2>
+              <a href="/noticias" class="text-black hover:text-gray-700 font-medium">
+                Ver Todas →
+              </a>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <article class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-48 bg-gray-200 flex items-center justify-center">
+                  <span class="text-gray-500">Imagem da Notícia</span>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center mb-2">
+                    <span class="bg-black text-white px-2 py-1 rounded text-xs font-medium">
+                      Futebol
+                    </span>
+                  </div>
+                  <h3 class="font-bold text-lg mb-2 hover:text-gray-700 transition-colors cursor-pointer">
+                    Novo técnico do Sub-20 é apresentado no CT Dr. Joaquim Grava
+                  </h3>
+                  <p class="text-gray-600 mb-4 text-sm">
+                    Ex-jogador do clube assume comando da equipe com objetivo de formar novos talentos...
+                  </p>
+                  <div class="text-xs text-gray-500">
+                    Maria Santos • Há 3 horas
+                  </div>
+                </div>
+              </article>
+
+              <article class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-48 bg-gray-200 flex items-center justify-center">
+                  <span class="text-gray-500">Imagem da Notícia</span>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center mb-2">
+                    <span class="bg-black text-white px-2 py-1 rounded text-xs font-medium">
+                      Transferências
+                    </span>
+                  </div>
+                  <h3 class="font-bold text-lg mb-2 hover:text-gray-700 transition-colors cursor-pointer">
+                    Corinthians negocia renovação com atacante titular
+                  </h3>
+                  <p class="text-gray-600 mb-4 text-sm">
+                    Diretoria busca acordo para manter jogador que se destacou na temporada...
+                  </p>
+                  <div class="text-xs text-gray-500">
+                    Pedro Costa • Há 4 horas
+                  </div>
+                </div>
+              </article>
+
+              <article class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-48 bg-gray-200 flex items-center justify-center">
+                  <span class="text-gray-500">Imagem da Notícia</span>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center mb-2">
+                    <span class="bg-black text-white px-2 py-1 rounded text-xs font-medium">
+                      Arena
+                    </span>
+                  </div>
+                  <h3 class="font-bold text-lg mb-2 hover:text-gray-700 transition-colors cursor-pointer">
+                    Arena Corinthians recebe melhorias no sistema de som
+                  </h3>
+                  <p class="text-gray-600 mb-4 text-sm">
+                    Investimento visa proporcionar melhor experiência aos torcedores durante os jogos...
+                  </p>
+                  <div class="text-xs text-gray-500">
+                    Ana Silva • Há 5 horas
+                  </div>
+                </div>
+              </article>
+
+              <article class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                <div class="h-48 bg-gray-200 flex items-center justify-center">
+                  <span class="text-gray-500">Imagem da Notícia</span>
+                </div>
+                <div class="p-6">
+                  <div class="flex items-center mb-2">
+                    <span class="bg-black text-white px-2 py-1 rounded text-xs font-medium">
+                      Feminino
+                    </span>
+                  </div>
+                  <h3 class="font-bold text-lg mb-2 hover:text-gray-700 transition-colors cursor-pointer">
+                    Corinthians Feminino estreia na Libertadores com vitória
+                  </h3>
+                  <p class="text-gray-600 mb-4 text-sm">
+                    Time comandado por Arthur Elias vence por 2x0 em casa na primeira rodada...
+                  </p>
+                  <div class="text-xs text-gray-500">
+                    Carlos Lima • Há 6 horas
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="lg:col-span-1">
+          <!-- Próximos Jogos -->
+          <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+            <h3 class="font-bold text-lg mb-4">Próximos Jogos</h3>
+            <div class="space-y-4">
+              <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
+                <div class="text-sm">
+                  <div class="font-medium">Corinthians x Santos</div>
+                  <div class="text-gray-500">Brasileirão • Dom 18:00</div>
+                </div>
+                <div class="text-black font-bold text-sm">
+                  Arena
+                </div>
+              </div>
+              <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
+                <div class="text-sm">
+                  <div class="font-medium">Flamengo x Corinthians</div>
+                  <div class="text-gray-500">Copa do Brasil • Qua 21:30</div>
+                </div>
+                <div class="text-gray-600 text-sm">
+                  Fora
+                </div>
+              </div>
+              <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
+                <div class="text-sm">
+                  <div class="font-medium">Corinthians x Palmeiras</div>
+                  <div class="text-gray-500">Brasileirão • Sáb 16:30</div>
+                </div>
+                <div class="text-black font-bold text-sm">
+                  Derby
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mais Lidas -->
+          <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+            <h3 class="font-bold text-lg mb-4">Mais Lidas</h3>
+            <div class="space-y-4">
+              <div class="flex items-start space-x-3">
+                <span class="bg-black text-white text-xs px-2 py-1 rounded font-bold">1</span>
+                <div>
+                  <p class="text-sm font-medium hover:text-gray-700 cursor-pointer">
+                    Corinthians acerta contratação de zagueiro internacional
+                  </p>
+                  <p class="text-xs text-gray-500 mt-1">Há 1 hora</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-3">
+                <span class="bg-gray-600 text-white text-xs px-2 py-1 rounded font-bold">2</span>
+                <div>
+                  <p class="text-sm font-medium hover:text-gray-700 cursor-pointer">
+                    Torcida organizada lança campanha solidária
+                  </p>
+                  <p class="text-xs text-gray-500 mt-1">Há 2 horas</p>
+                </div>
+              </div>
+              <div class="flex items-start space-x-3">
+                <span class="bg-gray-600 text-white text-xs px-2 py-1 rounded font-bold">3</span>
+                <div>
+                  <p class="text-sm font-medium hover:text-gray-700 cursor-pointer">
+                    Arena Corinthians bate novo recorde de público
+                  </p>
+                  <p class="text-xs text-gray-500 mt-1">Há 3 horas</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Banner Publicitário -->
+          <div class="bg-gray-100 rounded-lg p-6 text-center">
+            <div class="h-48 flex items-center justify-center">
+              <span class="text-gray-500">Espaço Publicitário</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <Footer />
+</Layout>

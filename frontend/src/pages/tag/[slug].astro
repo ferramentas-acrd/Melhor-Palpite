@@ -1,0 +1,61 @@
+---
+export const prerender = false;
+
+import Layout from '../../layouts/Layout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getTags, getPostsByTag } from '../../lib/strapi';
+import { checkTrailingSlashRedirect } from '../../lib/utils';
+
+export async function getStaticPaths() {
+  const tags = await getTags();
+  
+  if (!tags || tags.length === 0) {
+    return [];
+  }
+  
+  return tags.map((tag) => ({
+    params: { slug: tag.slug },
+    props: { tag }
+  }));
+}
+
+const { tag } = Astro.props;
+const { slug } = Astro.params;
+
+// Verificar se a URL atual termina com slash, se não, redirecionar
+const redirectResponse = checkTrailingSlashRedirect(Astro);
+if (redirectResponse) {
+  return redirectResponse;
+}
+
+if (!tag || !slug) {
+  return Astro.redirect('/404');
+}
+
+const postsResponse = await getPostsByTag(slug);
+const posts = postsResponse?.data || [];
+---
+
+<Layout title={`Tag: ${tag.name}`}>
+  <div class="container mx-auto px-4 py-8">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold text-gray-900 mb-2">
+        Tag: {tag.name}
+      </h1>
+    </header>
+    
+    {posts.length > 0 ? (
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {posts.map((post, index) => (
+          <PostCard post={post} index={index} />
+        ))}
+      </div>
+    ) : (
+      <div class="text-center py-12">
+        <p class="text-gray-500 text-lg">
+          Nenhuma publicação encontrada com esta tag.
+        </p>
+      </div>
+    )}
+  </div>
+</Layout>

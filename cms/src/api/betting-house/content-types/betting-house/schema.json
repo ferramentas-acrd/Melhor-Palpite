@@ -1,0 +1,83 @@
+{
+  "kind": "collectionType",
+  "collectionName": "betting_houses",
+  "info": {
+    "singularName": "betting-house",
+    "pluralName": "betting-houses",
+    "displayName": "Casa de Apostas",
+    "description": "Casas de apostas parceiras e recomendadas"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100,
+      "unique": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "description": {
+      "type": "text",
+      "maxLength": 500
+    },
+    "welcomeBonus": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "affiliateLink": {
+      "type": "string",
+      "required": true
+    },
+    "rating": {
+      "type": "decimal",
+      "min": 0,
+      "max": 5,
+      "default": 0
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "corinthiansPartner": {
+      "type": "boolean",
+      "default": false
+    },
+    "pros": {
+      "type": "json",
+      "default": []
+    },
+    "cons": {
+      "type": "json",
+      "default": []
+    },
+    "review": {
+      "type": "blocks"
+    },
+    "active": {
+      "type": "boolean",
+      "default": true
+    },
+    "order": {
+      "type": "integer",
+      "default": 0
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    }
+  }
+}

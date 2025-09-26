@@ -1,0 +1,137 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="História - Corinthians Online">
+  <Header />
+  
+  <main class="flex-1">
+    <div class="max-w-7xl mx-auto px-4 py-8">
+      <div class="mb-8">
+        <h1 class="text-4xl font-bold mb-4">História do Corinthians</h1>
+        <p class="text-gray-600">Conheça a rica história do Sport Club Corinthians Paulista</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2">
+          <!-- Foundation -->
+          <div class="mb-8">
+            <div class="bg-black text-white rounded-lg p-6">
+              <h2 class="text-2xl font-bold mb-4">1910 - A Fundação</h2>
+              <p class="text-gray-300">
+                Em 1º de setembro de 1910, no bairro do Bom Retiro, um grupo de operários se reuniu 
+                para fundar o Sport Club Corinthians Paulista. O nome foi inspirado na equipe inglesa 
+                Corinthian Football Club, que havia impressionado em uma excursão pelo Brasil.
+              </p>
+            </div>
+          </div>
+
+          <!-- Timeline -->
+          <div class="space-y-6">
+            <div class="bg-white border border-gray-200 rounded-lg p-6">
+              <div class="flex items-start space-x-4">
+                <div class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center font-bold">
+                  1914
+                </div>
+                <div>
+                  <h3 class="font-bold text-lg mb-2">Primeiro título paulista</h3>
+                  <p class="text-gray-600">
+                    O Corinthians conquista seu primeiro Campeonato Paulista, apenas 4 anos após sua fundação.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white border border-gray-200 rounded-lg p-6">
+              <div class="flex items-start space-x-4">
+                <div class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center font-bold">
+                  1977
+                </div>
+                <div>
+                  <h3 class="font-bold text-lg mb-2">Democracia Corinthiana</h3>
+                  <p class="text-gray-600">
+                    Movimento que revolucionou o futebol brasileiro, com Sócrates, Wladimir e outros ídolos.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white border border-gray-200 rounded-lg p-6">
+              <div class="flex items-start space-x-4">
+                <div class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center font-bold">
+                  1990
+                </div>
+                <div>
+                  <h3 class="font-bold text-lg mb-2">Primeiro título brasileiro</h3>
+                  <p class="text-gray-600">
+                    Corinthians conquista seu primeiro Campeonato Brasileiro, quebrando jejum de títulos nacionais.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white border border-gray-200 rounded-lg p-6">
+              <div class="flex items-start space-x-4">
+                <div class="bg-black text-white w-12 h-12 rounded-full flex items-center justify-center font-bold">
+                  2012
+                </div>
+                <div>
+                  <h3 class="font-bold text-lg mb-2">🏆 Mundial de Clubes</h3>
+                  <p class="text-gray-600">
+                    A maior conquista da história: Campeão Mundial ao vencer o Chelsea por 1x0 no Japão.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-1">
+          <!-- Titles -->
+          <div class="bg-white border border-gray-200 rounded-lg p-6 mb-6">
+            <h3 class="font-bold text-lg mb-4">🏆 Principais Títulos</h3>
+            <div class="space-y-2">
+              <div class="flex justify-between">
+                <span>Mundial de Clubes:</span>
+                <span class="font-semibold">2012</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Libertadores:</span>
+                <span class="font-semibold">2012</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Brasileirão:</span>
+                <span class="font-semibold">7 vezes</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Paulistão:</span>
+                <span class="font-semibold">30 vezes</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Copa do Brasil:</span>
+                <span class="font-semibold">3 vezes</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Legends -->
+          <div class="bg-black text-white rounded-lg p-6">
+            <h3 class="font-bold text-lg mb-4">⭐ Ídolos Eternos</h3>
+            <div class="space-y-2">
+              <div>Sócrates - Doutor</div>
+              <div>Rivelino - Rei do Futebol Arte</div>
+              <div>Cássio - Goleiro Fiel</div>
+              <div>Wladimir - Capitão</div>
+              <div>Marcelinho Carioca - Pé de Anjo</div>
+              <div>Ronaldo Fenômeno - O Fenômeno</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer />
+</Layout>

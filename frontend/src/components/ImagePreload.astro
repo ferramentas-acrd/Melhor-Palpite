@@ -1,0 +1,78 @@
+---
+import { getImageUrl } from '../lib/strapi';
+
+export interface Props {
+  media: any;
+  sizes?: string;
+}
+
+const { media, sizes = '(max-width: 640px) 100vw, (max-width: 1024px) 80vw, 1200px' } = Astro.props;
+
+// Função para detectar o tipo MIME correto
+function getMimeType(url: string): string {
+  const extension = url.split('.').pop()?.toLowerCase();
+  switch (extension) {
+    case 'webp':
+      return 'image/webp';
+    case 'png':
+      return 'image/png';
+    case 'jpg':
+    case 'jpeg':
+      return 'image/jpeg';
+    default:
+      return 'image/jpeg';
+  }
+}
+
+// Preparar URLs para preload
+const imageUrls = media ? {
+  small: media.formats?.small ? getImageUrl(media, 'small') : null,
+  medium: media.formats?.medium ? getImageUrl(media, 'medium') : null,
+  large: media.formats?.large ? getImageUrl(media, 'large') : null,
+  original: getImageUrl(media)
+} : null;
+
+// URL principal para preload (preferir medium para balance entre qualidade e performance)
+const primaryPreloadUrl = imageUrls?.medium || imageUrls?.large || imageUrls?.original;
+const mimeType = primaryPreloadUrl ? getMimeType(primaryPreloadUrl) : 'image/jpeg';
+
+// Gerar imagesrcset para preload responsivo
+const imagesrcset = [];
+if (imageUrls?.small && media.formats?.small?.width) {
+  imagesrcset.push(`${imageUrls.small} ${media.formats.small.width}w`);
+}
+if (imageUrls?.medium && media.formats?.medium?.width) {
+  imagesrcset.push(`${imageUrls.medium} ${media.formats.medium.width}w`);
+}
+if (imageUrls?.large && media.formats?.large?.width) {
+  imagesrcset.push(`${imageUrls.large} ${media.formats.large.width}w`);
+}
+const srcsetString = imagesrcset.join(', ');
+---
+
+{primaryPreloadUrl && (
+  <>
+    {/* Preload principal com suporte a srcset */}
+    <link 
+      rel="preload" 
+      as="image" 
+      href={primaryPreloadUrl}
+      type={mimeType}
+      fetchpriority="high"
+      imagesrcset={srcsetString}
+      imagesizes={sizes}
+    />
+    
+    {/* Preload adicional para telas grandes se disponível */}
+    {imageUrls?.large && imageUrls.large !== primaryPreloadUrl && (
+      <link 
+        rel="preload" 
+        as="image" 
+        href={imageUrls.large}
+        type={getMimeType(imageUrls.large)}
+        media="(min-width: 1024px)"
+        fetchpriority="high"
+      />
+    )}
+  </>
+)}

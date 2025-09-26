@@ -1,0 +1,42 @@
+---
+// Teste simples para verificar banners
+import { getBanners } from '../lib/strapi';
+
+console.log('=== TESTE DE BANNERS FLOAT ===');
+
+try {
+  // Buscar banners com local = "banner-float"
+  const floatBanners = await getBanners('banner-float');
+  
+  console.log('Banners encontrados:', floatBanners.length);
+  
+  if (floatBanners.length > 0) {
+    console.log('Primeiro banner:', JSON.stringify(floatBanners[0], null, 2));
+  }
+  
+  // Buscar TODOS os banners para debug
+  const allBanners = await getBanners();
+  console.log('\nTODOS os banners:', allBanners.length);
+  
+  // Listar os locais de todos os banners
+  console.log('\nLocais dos banners:');
+  allBanners.forEach((banner, index) => {
+    console.log(`${index + 1}. Local: "${banner.local}" - Título: ${banner.title_banner || 'Sem título'}`);
+  });
+  
+} catch (error) {
+  console.error('Erro ao buscar banners:', error);
+}
+---
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Debug Float Banners</title>
+</head>
+<body>
+  <h1>Debug Float Banners</h1>
+  <p>Verifique o console do servidor para ver os logs.</p>
+</body>
+</html>

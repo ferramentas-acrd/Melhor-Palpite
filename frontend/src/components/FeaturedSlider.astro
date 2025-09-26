@@ -1,0 +1,55 @@
+---
+import { getImageUrl } from '../lib/strapi';
+import type { Post } from '../lib/strapi';
+
+export interface Props {
+  posts: Post[];
+}
+
+const { posts } = Astro.props;
+---
+
+<div class="relative">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+    {posts.map((post) => {
+      const imageUrl = typeof post.coverImage === 'string' ? post.coverImage : (post.coverImage ? getImageUrl(post.coverImage) : '');
+      return (
+        <a 
+          href={`/${post.slug}`}
+          class="relative group block aspect-video overflow-hidden rounded-lg"
+        >
+          <img 
+            src={imageUrl}
+            alt={post.title}
+            class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            width="400"
+            height="225"
+            loading="eager"
+          />
+          
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent">
+            <div class="absolute bottom-0 left-0 right-0 p-6">
+              <h2 class="text-white text-2xl font-bold mb-2 line-clamp-2">
+                {post.title}
+              </h2>
+              
+              {post.category && (
+                <span class="inline-block bg-blue-600 text-white px-3 py-1 rounded-full text-sm">
+                  {post.category.name}
+                </span>
+              )}
+            </div>
+          </div>
+        </a>
+      );
+    })}
+  </div>
+</div>
+
+<style>
+  /* Prevenção de CLS para títulos no slider */
+  .text-2xl {
+    line-height: 1.2;
+    min-height: 2.4em; /* Para 2 linhas com line-clamp-2 */
+  }
+</style>
