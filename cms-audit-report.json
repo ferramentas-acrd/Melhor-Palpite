@@ -1,0 +1,97 @@
+{
+  "timestamp": "2025-09-26T15:47:20.960Z",
+  "successCount": 5,
+  "errorCount": 41,
+  "successPages": [
+    {
+      "name": "Content Manager",
+      "url": "/admin/content-manager",
+      "status": 200
+    },
+    {
+      "name": "Media Library",
+      "url": "/admin/plugins/upload",
+      "status": 200
+    },
+    {
+      "name": "Content-Type Builder",
+      "url": "/admin/plugins/content-type-builder",
+      "status": 200
+    },
+    {
+      "name": "Marketplace",
+      "url": "/admin/marketplace",
+      "status": 200
+    },
+    {
+      "name": "Settings1",
+      "url": "/admin/settings",
+      "status": 200
+    }
+  ],
+  "errors": [
+    "Console Error: Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015' because it violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.\n",
+    "HTTP 404 - https://www.melhorpalpite.com.br/content-manager/homepage/recent-documents?action=publish",
+    "Console Error: Failed to load resource: the server responded with a status of 404 ()",
+    "HTTP 404 - https://www.melhorpalpite.com.br/content-manager/homepage/recent-documents?action=update",
+    "Console Error: Failed to load resource: the server responded with a status of 404 ()",
+    "HTTP 404 - https://www.melhorpalpite.com.br/content-manager/homepage/count-documents",
+    "Console Error: Failed to load resource: the server responded with a status of 404 ()",
+    "Console Error: Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015' because it violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.\n",
+    "HTTP 404 - https://www.melhorpalpite.com.br/content-manager/init",
+    "Console Error: Failed to load resource: the server responded with a status of 404 ()",
+    "HTTP 404 - https://www.melhorpalpite.com.br/content-manager/content-types-settings",
+    "Console Error: Failed to load resource: the server responded with a status of 404 ()",
+    "Console Error: Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015' because it violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.\n",
+    "HTTP 404 - https://www.melhorpalpite.com.br/upload/configuration",
+    "Console Error: Failed to load resource: the server responded with a status of 404 ()",
+    "HTTP 404 - https://www.melhorpalpite.com.br/upload/configuration",
+    "Console Error: Failed to load resource: the server responded with a status of 404 ()",
+    "Console Error: Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015' because it violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.\n",
+    "HTTP 404 - https://www.melhorpalpite.com.br/content-type-builder/schema",
+    "Console Error: Failed to load resource: the server responded with a status of 404 ()",
+    "Console Error: {err: SyntaxError: Unexpected token '<', \"<!DOCTYPE \"... is not valid JSON}",
+    "HTTP 404 - https://www.melhorpalpite.com.br/content-type-builder/reserved-names",
+    "Console Error: Failed to load resource: the server responded with a status of 404 ()",
+    "Console Error: Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015' because it violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.\n",
+    "Console Error: Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015' because it violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.\n",
+    "Console Error: Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015' because it violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.\n",
+    "HTTP 404 - https://www.melhorpalpite.com.br/content-manager/init",
+    "Console Error: Failed to load resource: the server responded with a status of 404 ()",
+    "HTTP 404 - https://www.melhorpalpite.com.br/content-manager/content-types-settings",
+    "Console Error: Failed to load resource: the server responded with a status of 404 ()",
+    "Console Error: Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015' because it violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.\n",
+    "HTTP 404 - https://www.melhorpalpite.com.br/upload/configuration",
+    "Console Error: Failed to load resource: the server responded with a status of 404 ()",
+    "Console Error: Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015' because it violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.\n",
+    "Console Error: Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015' because it violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.\n",
+    "Console Error: Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015' because it violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.\n",
+    "Console Error: Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015' because it violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.\n",
+    "Console Error: Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015' because it violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.\n",
+    "Console Error: Refused to load the script 'https://static.cloudflareinsights.com/beacon.min.js/vcd15cbe7772f49c399c6a5babf22c1241717689176015' because it violates the following Content Security Policy directive: \"script-src 'self'\". Note that 'script-src-elem' was not explicitly set, so 'script-src' is used as a fallback.\n",
+    "HTTP 404 - https://www.melhorpalpite.com.br/email/settings",
+    "Console Error: Failed to load resource: the server responded with a status of 404 ()"
+  ],
+  "menuUrls": [
+    {
+      "text": "Content Manager",
+      "url": "/admin/content-manager"
+    },
+    {
+      "text": "Media Library",
+      "url": "/admin/plugins/upload"
+    },
+    {
+      "text": "Content-Type Builder",
+      "url": "/admin/plugins/content-type-builder"
+    },
+    {
+      "text": "Marketplace",
+      "url": "/admin/marketplace"
+    },
+    {
+      "text": "Settings1",
+      "url": "/admin/settings"
+    }
+  ]
+}
